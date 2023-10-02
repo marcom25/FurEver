@@ -1,9 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import { Furbar } from "./components/common/Furbar";
+import {Footer} from "./components/common/Footer";
 
 function App() {
   return (
-    <></>
+    <>
+      <Furbar/>
+      <Footer />
+    </>
   );
 }
 
