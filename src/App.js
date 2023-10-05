@@ -6,14 +6,11 @@ import { LandingOfferer } from "./layouts/LandingOfferer";
 import { LandingInterested } from "./layouts/LandingInterested";
 import { useFetch } from "./hooks/useFetch";
 
-
 function App() {
-  const {loading, error, data} = useFetch("animal-adp/");
-
-  console.log(data);
+  // const {loading, error, data} = useFetch("animal-adp/");
   return (
     <>
-      <Container>
+      <Container fluid>
         <Row>
           <Furbar />
         </Row>
@@ -21,7 +18,6 @@ function App() {
           <Routes>
             <Route path="offerer" element={<LandingOfferer />} />
             <Route path="interested" element={<LandingInterested />} />
-
           </Routes>
         </Row>
         <Row>
@@ -33,4 +29,3 @@ function App() {
 }
 
 export default App;
-

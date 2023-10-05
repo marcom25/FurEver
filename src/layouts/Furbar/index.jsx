@@ -4,14 +4,15 @@ export const Furbar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">FurEver</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
+        <Navbar.Offcanvas className="" id="basic-navbar-nav">
+          <Nav className="justify-content-center p-3 p-lg-0">
+            <Nav.Link href="#home">Adoptar</Nav.Link>
+            <Nav.Link href="#link">Comprar</Nav.Link>
+            <Nav.Link href="#link">Mis Conexiones</Nav.Link>
           </Nav>
-        </Navbar.Collapse>
+        </Navbar.Offcanvas>
       </Container>
     </Navbar>
   )
