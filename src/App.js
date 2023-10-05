@@ -4,8 +4,13 @@ import { Furbar } from "./layouts/Furbar";
 import { Footer } from "./layouts/Footer";
 import { LandingOfferer } from "./layouts/LandingOfferer";
 import { LandingInterested } from "./layouts/LandingInterested";
+import { useFetch } from "./hooks/useFetch";
+
 
 function App() {
+  const {loading, error, data} = useFetch("animal-adp/");
+
+  console.log(data);
   return (
     <>
       <Container>
