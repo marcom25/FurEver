@@ -14,7 +14,7 @@ function App() {
         <Row>
           <Furbar />
         </Row>
-        <Row>
+        <Row >
           <Routes>
             <Route path="offerer" element={<LandingOfferer />} />
             <Route path="interested" element={<LandingInterested />} />
