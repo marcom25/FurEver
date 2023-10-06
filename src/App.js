@@ -4,6 +4,8 @@ import { Furbar } from "./layouts/Furbar";
 import { Footer } from "./layouts/Footer";
 import { LandingOfferer } from "./layouts/LandingOfferer";
 import { LandingInterested } from "./layouts/LandingInterested";
+import { OferrerInterestees } from './layouts/OferrerInterestees'
+
 import { useFetch } from "./hooks/useFetch";
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
           <Routes>
             <Route path="offerer" element={<LandingOfferer />} />
             <Route path="interested" element={<LandingInterested />} />
+            <Route path="offerer/interestees" element={<OferrerInterestees />} />
           </Routes>
         </Row>
         <Row>
