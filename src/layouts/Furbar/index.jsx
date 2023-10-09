@@ -10,7 +10,7 @@ export const Furbar = () => {
           <Nav className="justify-content-center p-3 p-lg-0">
             <Nav.Link href="#home">Adoptar</Nav.Link>
             <Nav.Link href="#link">Comprar</Nav.Link>
-            <Nav.Link href="#link">Mis Conexiones</Nav.Link>
+            <Nav.Link href="/offerer/interestees">Mis Conexiones</Nav.Link>
           </Nav>
         </Navbar.Offcanvas>
       </Container>
