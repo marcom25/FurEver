@@ -8,22 +8,25 @@ import { OferrerInterestees } from './layouts/OferrerInterestees'
 
 import { useFetch } from "./hooks/useFetch";
 
+
 function App() {
-  // const {loading, error, data} = useFetch("animal-adp/");
+  const {loading, error, data} = useFetch("animal-adp/");
+  console.log(Array.isArray(data));
+  console.log(data, "app");
   return (
     <>
       <Container fluid>
         <Row>
           <Furbar />
         </Row>
-        <Row>
+        <Row className="justify-content-center">
           <Routes>
             <Route path="offerer" element={<LandingOfferer />} />
             <Route path="interested" element={<LandingInterested />} />
             <Route path="offerer/interestees" element={<OferrerInterestees />} />
           </Routes>
         </Row>
-        <Row>
+        <Row className="position-absolute bottom-0 w-100">
           <Footer />
         </Row>
       </Container>

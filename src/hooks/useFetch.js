@@ -5,6 +5,7 @@ import { fetchReducer, initialState } from "../reducers/fetch";
 
 export const useFetch = (endpoint = "") => {
     const [state, dispatch] = useReducer(fetchReducer, initialState);
+    console.log(state);
 
     const getData = useCallback(async () => {
         try {
