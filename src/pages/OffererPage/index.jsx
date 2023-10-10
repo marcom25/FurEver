@@ -3,6 +3,6 @@ import { LandingOfferer } from '../../layouts/LandingOfferer'
 
 export const OffererPage = () => {
   return (
-    <LandingOfferer/>
+    <div>Offerer Page</div>
   )
 }
