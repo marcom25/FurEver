@@ -5,7 +5,6 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { FaCheckCircle,FaTimesCircle, } from "react-icons/fa";
 import { useFetch } from "../../hooks/useFetch";
 
-
 export const OferrerInterestees = () => {
 const [showA, setShowAnimal] = useState(false);
 const [showI, setShowInterested] = useState(false);
@@ -24,7 +23,7 @@ const handleShowI = () => setShowInterested(true);
             <h1 className="text-center my-4">Mis Interesados</h1>
             <Accordion className="d-flex align-items-center flex-column ">
             <Accordion.Item eventKey="0" className="w-75">
-                <div className="d-flex flex-row">
+                <Container className="d-flex flex-row p-0">
                 <Button  variant="outline-info" className="w-10" onClick={handleShowA}>
                         <FaCircleInfo color="blue" size="2em" /> 
                     </Button>
@@ -32,24 +31,24 @@ const handleShowI = () => setShowInterested(true);
                     <p className="m-0 fw-bold">Polo</p>
                     
                 </Accordion.Header>
-                </div>
+                </Container>
                 <Accordion.Body>
                 <ListGroup variant="flush">
                 <ListGroup.Item className="d-flex justify-content-between">
-                    <div className="d-flex flex-row align-items-center">
+                    <Container className="d-flex flex-row align-items-center p-0">
                       <Button  variant="link" className="w-10" onClick={handleShowI}>
                           <FaCircleInfo color="blue" size="1.5em" /> 
                       </Button>
                       User1
-                    </div>
-                    <div className="d-flex flex-row align-items-center">
+                    </Container>
+                    <Container className="d-flex flex-row justify-content-end align-items-center p-0">
                       <Button  variant="link" className="w-10" >
                           <FaTimesCircle size="1.5em" color="red" /> 
                       </Button>
                       <Button  variant="link" className="w-10" >
                           <FaCheckCircle size="1.5em" color="green" /> 
                       </Button>
-                    </div>
+                    </Container>
                   </ListGroup.Item>
                   
                   
