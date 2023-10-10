@@ -1,21 +1,25 @@
-import React from 'react'
-import process from 'process';
-import {motion, useMotionValue, useTransform, useAnimation} from "framer";
+import React from "react";
+import { Card, Button, Carousel } from "react-bootstrap";
 
-export const AnimalCard = () => {
+export const AnimalCard = ({nombre, descripcion, photos, especie}) => {
+  
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.5 }}
-      transition={{ duration: 0.5 }}
-      drag="x"
-      dragConstraints={{ left: 0, right: 0 }}
-    >
-      <div className="carta-tinder">
-        <h1>Título de la carta</h1>
-        <p>Contenido de la carta...</p>
-      </div>
-    </motion.div>
-  )
-}
+    <Card className="rounded-3 h-100" style={{width: "20vw"}}>
+        <Carousel>
+          {photos.map((photo) => {
+            <Carousel.Item>
+              <Card.Img src={photo} alt={especie}/>
+            </Carousel.Item>
+          })}
+        </Carousel>
+        <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
+          <Card.Title>{nombre}</Card.Title>
+          <Card.Text>
+            {descripcion}
+          </Card.Text>
+          <Button variant="primary">Ver mas</Button>
+        </Card.ImgOverlay>
+      </Card>
+  );
+};

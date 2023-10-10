@@ -3,11 +3,12 @@ import {ACTIONS} from "../actions/fetch";
 export const initialState = {
     loading: true,
     error: false,
-    data: {},
+    data: [],
 }
 
 export const fetchReducer = (state = initialState, action) => {
     switch (action.type) {
+
         case ACTIONS.SET_DATA:
             return {
                 ...initialState,

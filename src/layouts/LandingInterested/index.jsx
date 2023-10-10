@@ -1,18 +1,18 @@
 import React from "react";
-import { AnimalCard } from "../../components/Interested/AnimalCard";
 import { Col, Container, Row } from "react-bootstrap";
+import { AnimalStack } from "../../components/Interested/AnimalStack";
 
 export const LandingInterested = () => {
   return (
     <>
       <Row>
-        <Col>
-          <h1>LandingIntereste</h1>
+        <Col className="text-center">
+          <h1>Encontremos a tu nuevo mejor amigo!</h1>
         </Col>
       </Row>
       <Row>
         <Col>
-          <AnimalCard />
+          <AnimalStack />
         </Col>
       </Row>
     </>
