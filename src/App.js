@@ -1,29 +1,20 @@
 import { Container, Row } from "react-bootstrap";
-import { Routes, Route } from "react-router-dom";
+
 import { Furbar } from "./layouts/Furbar";
 import { Footer } from "./layouts/Footer";
-import { LandingOfferer } from "./layouts/LandingOfferer";
-import { LandingInterested } from "./layouts/LandingInterested";
-import { OferrerInterestees } from './layouts/OferrerInterestees'
-
-import { useFetch } from "./hooks/useFetch";
+import { MyRoutes } from "./routes";
 
 function App() {
-  // const {loading, error, data} = useFetch("animal-adp/");
   return (
     <>
       <Container fluid>
         <Row>
           <Furbar />
         </Row>
-        <Row>
-          <Routes>
-            <Route path="offerer" element={<LandingOfferer />} />
-            <Route path="interested" element={<LandingInterested />} />
-            <Route path="offerer/interestees" element={<OferrerInterestees />} />
-          </Routes>
+        <Row className="justify-content-center">
+          <MyRoutes />
         </Row>
-        <Row>
+        <Row className="position-absolute bottom-0 w-100">
           <Footer />
         </Row>
       </Container>

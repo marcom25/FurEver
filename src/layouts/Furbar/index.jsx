@@ -1,4 +1,5 @@
 import { Navbar, Nav, Container,Image } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 export const Furbar = () => {
   return (
@@ -11,9 +12,9 @@ export const Furbar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Offcanvas className="" id="basic-navbar-nav">
           <Nav className="justify-content-center p-3 p-lg-0">
-            <Nav.Link href="#home">Adoptar</Nav.Link>
-            <Nav.Link href="#link">Comprar</Nav.Link>
-            <Nav.Link href="/offerer/interestees">Mis Conexiones</Nav.Link>
+            <Link to="interested" className="nav-link">Adoptar</Link>
+            <Link to="/" className="nav-link">Comprar</Link>
+            <Link to="/" className="nav-link">Mis Conexiones</Link>
           </Nav>
         </Navbar.Offcanvas>
       </Container>
