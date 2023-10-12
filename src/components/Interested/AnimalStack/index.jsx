@@ -13,7 +13,6 @@ export const AnimalStack = () => {
   const [lastDirection, setLastDirection] = useState();
 
   const currentIndexRef = useRef(currentIndex);
-
   const childRefs = useMemo(
     () =>
       Array(animals.length)
@@ -29,7 +28,7 @@ export const AnimalStack = () => {
 
   const canSwipe = currentIndex >= 0;
 
-  const swiped = (direction, nameToDelete, index) => {
+  const  swiped = (direction, nameToDelete, index) => {
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
   };
