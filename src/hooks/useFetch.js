@@ -34,7 +34,7 @@ export const useFetch = (endpoint = "", req={}) => {
     
     useEffect(() => {
         postData();
-    }, [endpoint, postData])
+    }, [])
 
     return state;
 }

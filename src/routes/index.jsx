@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import { OffererPage } from "../pages/OffererPage";
 import { InterestedPage } from "../pages/InterestedPage";
-import { OferrerInterestees } from "../pages/OferrerInteresteesPage";
+import { OferrerInteresteesPage } from "../pages/OferrerInteresteesPage";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { ResgisterOfferer } from "../components/common/RegisterOfferer";
@@ -17,9 +17,9 @@ export const MyRoutes = () => {
       <Route path="register/offerer" element={<ResgisterOfferer/>}/>
       <Route path="register/interested" element={<RegisterInterested/>}/>
       <Route path="offerer" element={<OffererPage />} />
-      <Route path="offerer/interestees" element={<OferrerInterestees />} />
+      <Route path="offerer/interestees" element={<OferrerInteresteesPage />} />
       <Route path="interested" element={<InterestedPage />} />
-      <Route path="interested/conections" element={<InterestedConectionsPage />} />
+      <Route path="interested/connections" element={<InterestedConectionsPage />} />
       <Route path="interested/sales" element={<MaintenencePage />} />
     </Routes>
   );

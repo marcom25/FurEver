@@ -16,10 +16,10 @@ export const Furbar = () => {
               <Link to="interested" className="nav-link">
                 Adoptar
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="interested/sales" className="nav-link">
                 Comprar
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="interested/connections" className="nav-link">
                 Mis Conexiones
               </Link>
             </div>

@@ -4,8 +4,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
 import { useFetch } from "../../../hooks/useFetch";
-import { useEffect } from "react";
-import { API } from "../../../API/API";
+
 
 export const RegisterInterested = () => {
   const [formData, setFormData] = useState();
@@ -54,7 +53,7 @@ export const RegisterInterested = () => {
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
+            <Form noValidate onSubmit={handleSubmit} className="">
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridUsername">
                   <Form.Label>Nombre de usuario</Form.Label>
@@ -223,7 +222,7 @@ export const RegisterInterested = () => {
               </Form.Group>
 
               <Button variant="primary" onClick={submitForm}>
-                Submit
+                Registrarse
               </Button>
             </Form>
           )}
