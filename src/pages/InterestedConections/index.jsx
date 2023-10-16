@@ -8,7 +8,7 @@ import { AnimalModal } from "../../components/Offerers/AnimalModal";
 import { OffererContactModal } from "../../components/Interested/OffererContact";
 
 export const InterestedConectionsPage = () => {
-  const { loading, error, data } = useFetch("interesados/?name=lindaJhonson_");
+  const { loading, error, data } = useFetch("interesados/");
   const [showModalA, setShowModalA] = useState(false);
   const [showModalContact, setShowModalContact] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
@@ -50,7 +50,7 @@ export const InterestedConectionsPage = () => {
 
   return (
     <Container>
-      <h1 className="text-center my-4">Mis Interesados</h1>
+      <h1 className="text-center my-4">Mis Conexiónes</h1>
       <Row className="d-flex justify-content-md-center">
       <ListGroup variant="flush" className="w-50">
         {data?.length > 0 &&
