@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
-import { useFetch } from "../../hooks/useFetch";
+import { usePost } from "../../hooks/usePost";
 
 export const Login = () => {
   const [formData, setFormData] = useState();
   console.log(formData);
-  const { loading, error, data } = useFetch("login/", formData);
+  const { loading, error, data } = usePost("login/", formData);
   console.log(error);
 
   const schema = yup.object().shape({

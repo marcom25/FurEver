@@ -3,14 +3,13 @@ import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { useFetch } from "../../../hooks/useFetch";
+import { usePost } from "../../../hooks/usePost";
 
 
 export const RegisterInterested = () => {
   const [formData, setFormData] = useState();
-  console.log(formData);
-  const {loading, error, data} = useFetch("register/interested", formData);
-  console.log(error);
+  const {loading, error, data} = usePost("register/interested", formData);
+  
 
  
 
