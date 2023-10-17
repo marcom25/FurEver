@@ -8,7 +8,7 @@ import "./index.css";
 
 export const AnimalStack = () => {
   const { loading, error, data: animals } = useFetch("animal-adp/");
-
+  console.log(animals);
   const [currentIndex, setCurrentIndex] = useState(animals.length - 1);
   const [lastDirection, setLastDirection] = useState();
 
@@ -56,8 +56,8 @@ export const AnimalStack = () => {
             className="animal-card"
             ref={childRefs[index]}
             key={animal.nombre}
-            onSwipe={(dir) => swiped(dir, animal.name, index)}
-            onCardLeftScreen={() => outOfFrame(animal.name, index)}
+            onSwipe={(dir) => swiped(dir, animal.nombre, index)}
+            onCardLeftScreen={() => outOfFrame(animal.nombre, index)}
           >
             <AnimalCard {...animal} />
           </TinderCard>
