@@ -1,15 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
-import { usePost } from "../../hooks/usePost";
+import { API } from "../../API/API";
 
 export const Login = () => {
-  const [formData, setFormData] = useState();
-  console.log(formData);
-  const { loading, error, data } = usePost("login/", formData);
-  console.log(error);
-
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -19,6 +14,25 @@ export const Login = () => {
     username: "",
     password: "",
   };
+
+  const [formData, setFormData] = useState(initialValue);
+
+
+
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        const response = await API.post("login/", formData);
+        localStorage.setItem("user", JSON.stringify(response.data.user_data));
+      } catch (error) {
+        console.log(error);
+      }
+    } 
+
+    postData();
+  }, [formData]);
+
 
   return (
     <>
@@ -34,7 +48,11 @@ export const Login = () => {
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
-            <Form noValidate onSubmit={handleSubmit} className="d-flex flex-column align-items-center gap-3">
+            <Form
+              noValidate
+              onSubmit={handleSubmit}
+              className="d-flex flex-column align-items-center gap-3"
+            >
               <Form.Group controlId="formGridUsername">
                 <Form.Label>Nombre de usuario</Form.Label>
                 <Form.Control

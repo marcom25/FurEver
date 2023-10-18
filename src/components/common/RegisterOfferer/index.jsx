@@ -3,11 +3,14 @@ import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { useFetch } from "../../../hooks/useFetch";
+import { usePost } from "../../../hooks/usePost";
 
 export const ResgisterOfferer = () => {
   const [formData, setFormData] = useState();
-  const {loading, error, data} = useFetch("register/offerer", formData);
+  console.log("🚀 ~ file: index.jsx:10 ~ ResgisterOfferer ~ formData:", formData)
+  
+  const { loading, error, data } = usePost("register/offerer", formData);
+  
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
@@ -94,40 +97,40 @@ export const ResgisterOfferer = () => {
               </Row>
 
               <Row>
-              <Form.Group className="mb-3" controlId="formGridProvince">
-                <Form.Label>¿En que provincia estás ubicado/a?</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  name="provincia"
-                  onChange={handleChange}
-                />
-              </Form.Group>
+                <Form.Group className="mb-3" controlId="formGridProvince">
+                  <Form.Label>¿En que provincia estás ubicado/a?</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    name="provincia"
+                    onChange={handleChange}
+                  />
+                </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formGridFundation">
-                <Form.Label>Nombre de empresa o fundación. (En caso de pertenecer a una)</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={1}
-                  name="empresa_fundacion"
-                  onChange={handleChange}
-                />
-              </Form.Group>
-
-                
+                <Form.Group className="mb-3" controlId="formGridFundation">
+                  <Form.Label>
+                    Nombre de empresa o fundación. (En caso de pertenecer a una)
+                  </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    name="empresa_fundacion"
+                    onChange={handleChange}
+                  />
+                </Form.Group>5
               </Row>
 
-              <FieldArray name="photos">
+              <FieldArray name="docs">
                 {({ insert, remove, push }) => (
                   <Form.Group className="mb-3" controlId="formGridPhotos">
-                    <Form.Label>Documentacion (solo en caso de venta)</Form.Label>
+                    <Form.Label>
+                      Documentacion (solo en caso de venta)
+                    </Form.Label>
                     {values.docs?.length > 0 &&
                       values.docs.map((docs, index) => (
                         <div key={index}>
                           <Form.Control
                             type="url"
                             placeholder="Poné el link de compartir archivo acá"
-                            name={`photos.${index}.url`}
+                            name={`docs.${index}.url`}
                             onChange={handleChange}
                           />
                           <Button type="button" onClick={() => remove(index)}>
@@ -143,7 +146,6 @@ export const ResgisterOfferer = () => {
                 )}
               </FieldArray>
 
-
               <Button variant="primary" onClick={submitForm}>
                 Registrarse
               </Button>
@@ -152,6 +154,5 @@ export const ResgisterOfferer = () => {
         </Formik>
       </Row>
     </>
-
-  )
-}
+  );
+};

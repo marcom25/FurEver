@@ -15,7 +15,7 @@ export const usePost = (endpoint = "", req={}) => {
             dispatch({type: SET_ERROR});
             console.log(e);
         }
-    }, [endpoint]);
+    }, [endpoint, ]);
 
     
     useEffect(() => {
