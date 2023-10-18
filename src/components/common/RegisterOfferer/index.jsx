@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
@@ -25,20 +24,15 @@ export const ResgisterOfferer = () => {
     ],
   };
 
-  const [formData, setFormData] = useState(initialValue);
-
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await API.post("register/offerer", formData);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    postData();
-  }, [formData]);
+  const submitHandler = async (formData) => {
+    try {
+      const response = await API.post("register/interested", formData);
+      console.log(response);
+      window.location.assign("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -50,7 +44,7 @@ export const ResgisterOfferer = () => {
       <Row>
         <Formik
           validationSchema={schema}
-          onSubmit={setFormData}
+          onSubmit={submitHandler}
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (

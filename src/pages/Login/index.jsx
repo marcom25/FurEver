@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
@@ -15,24 +14,16 @@ export const Login = () => {
     password: "",
   };
 
-  const [formData, setFormData] = useState(initialValue);
 
-
-
-
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await API.post("login/", formData);
-        localStorage.setItem("user", JSON.stringify(response.data.user_data));
-      } catch (error) {
-        console.log(error);
-      }
-    } 
-
-    postData();
-  }, [formData]);
-
+  const submitHandler = async (formData) => {
+    try {
+      const response = await API.post("login/", formData);
+      localStorage.setItem("user", JSON.stringify(response.data.user_data));
+      window.location.assign("/")
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -44,7 +35,7 @@ export const Login = () => {
       <Row>
         <Formik
           validationSchema={schema}
-          onSubmit={setFormData}
+          onSubmit={submitHandler}
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (

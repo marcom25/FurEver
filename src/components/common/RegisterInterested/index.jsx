@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
@@ -31,20 +30,15 @@ export const RegisterInterested = () => {
     descripcion: "",
   };
 
-  const [formData, setFormData] = useState();
-
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await API.post("register/interested", formData);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    postData();
-  }, [formData]);
+  const submitHandler = async (formData) => {
+    try {
+      const response = await API.post("register/interested", formData);
+      console.log(response);
+      window.location.assign("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -56,7 +50,7 @@ export const RegisterInterested = () => {
       <Row>
         <Formik
           validationSchema={schema}
-          onSubmit={setFormData}
+          onSubmit={submitHandler}
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
