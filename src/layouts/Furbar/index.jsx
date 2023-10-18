@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 export const Furbar = () => {
   const retrievedData = JSON.parse(localStorage.getItem("user"));
-
-  const userType = retrievedData.tipo;
-
-  console.log(userType);
+  let userType
+  
+  if (localStorage.getItem("user")) {
+    userType = retrievedData.tipo
+  }
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">

@@ -1,18 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { usePost } from "../../../hooks/usePost";
-
+import { API } from "../../../API/API";
 
 export const RegisterInterested = () => {
-  const [formData, setFormData] = useState();
-  const {loading, error, data} = usePost("register/interested", formData);
-  
-
- 
-
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -37,6 +30,21 @@ export const RegisterInterested = () => {
     ],
     descripcion: "",
   };
+
+  const [formData, setFormData] = useState();
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        const response = await API.post("register/interested/", formData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    postData();
+  }, [formData]);
 
   return (
     <>

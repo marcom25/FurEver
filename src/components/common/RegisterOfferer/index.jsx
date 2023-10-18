@@ -1,17 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FieldArray, Formik } from "formik";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { usePost } from "../../../hooks/usePost";
+import { API } from "../../../API/API";
 
 export const ResgisterOfferer = () => {
-  const [formData, setFormData] = useState();
-  console.log("🚀 ~ file: index.jsx:10 ~ ResgisterOfferer ~ formData:", formData)
-  
-  const { loading, error, data } = usePost("register/offerer", formData);
-  
-
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -30,6 +24,21 @@ export const ResgisterOfferer = () => {
       },
     ],
   };
+
+  const [formData, setFormData] = useState(initialValue);
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        const response = await API.post("register/offerer/", formData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    postData();
+  }, [formData]);
 
   return (
     <>
@@ -105,7 +114,6 @@ export const ResgisterOfferer = () => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-
                 <Form.Group className="mb-3" controlId="formGridFundation">
                   <Form.Label>
                     Nombre de empresa o fundación. (En caso de pertenecer a una)
@@ -115,7 +123,7 @@ export const ResgisterOfferer = () => {
                     name="empresa_fundacion"
                     onChange={handleChange}
                   />
-                </Form.Group>5
+                </Form.Group>
               </Row>
 
               <FieldArray name="docs">
