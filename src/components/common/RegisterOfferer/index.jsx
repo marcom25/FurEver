@@ -30,7 +30,7 @@ export const ResgisterOfferer = () => {
   useEffect(() => {
     const postData = async () => {
       try {
-        const response = await API.post("register/offerer/", formData);
+        const response = await API.post("register/offerer", formData);
         console.log(response);
       } catch (error) {
         console.log(error);

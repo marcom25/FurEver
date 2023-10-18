@@ -36,7 +36,7 @@ export const RegisterInterested = () => {
   useEffect(() => {
     const postData = async () => {
       try {
-        const response = await API.post("register/interested/", formData);
+        const response = await API.post("register/interested", formData);
         console.log(response);
       } catch (error) {
         console.log(error);
