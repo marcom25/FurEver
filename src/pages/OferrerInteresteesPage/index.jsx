@@ -2,20 +2,35 @@ import React from "react";
 import {Accordion, Container,Row,Button,Modal,ListGroup } from 'react-bootstrap';
 import { useState } from 'react';
 import { FaCircleInfo } from "react-icons/fa6";
-import { FaCheckCircle,FaTimesCircle, } from "react-icons/fa";
+import { FaCheckCircle,FaTimesCircle,FaCheck,FaTimes } from "react-icons/fa";
 import { useFetch } from "../../hooks/useFetch";
 import { AnimalModal } from "../../components/Offerers/AnimalModal";
 import { InterestedModal } from "../../components/Offerers/InterestedModal";
-
+import { API } from "../../API/API";
 export const OferrerInteresteesPage = () => {
-  const { loading, error, data } = useFetch("animal-adp/");
-  data.map((animal, index) => (
-    console.log(animal.interested)
-  ))
+  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  let offererName
+  let offererId
+  
+  if (localStorage.getItem("user")) {
+    offererName = retrievedData.username
+    offererId = retrievedData.id
+  }
+  const { loading, error, data } = useFetch("animal-adp/?owner="+offererName);
+  
   const [showModalA, setShowModalA] = useState(false);
   const [showModalI, setShowModalI] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [selectedInterested, setSelectedInterested] = useState(null);
+  
+  const decideHandler = async (decision) => {
+    try {
+      const response = await API.post("conection-d/", decision);
+      window.location.reload()
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleShowModalA = (animal) => {
     setSelectedAnimal(animal);
@@ -27,12 +42,49 @@ export const OferrerInteresteesPage = () => {
     setShowModalI(true);
   };
 
+  const selectButtons = (interested,animal) => {
+    if(interested.conection === "EE"){
+      return(
+        <Container className="d-flex flex-row justify-content-end align-items-center p-0">
+          <Button variant="link" className="w-10" onClick={()=>decideHandler({"interested":interested.id,
+                                                                          "animal":animal.id,
+                                                                          "answer":"reject"})}>
+            <FaTimesCircle size="1.5em" color="red" />
+          </Button>
+          <Button variant="link" className="w-10" onClick={()=>decideHandler({"interested":interested.id,
+                                                                          "animal":animal.id,
+                                                                          "answer":"accept"})}>
+            <FaCheckCircle size="1.5em" color="green" />
+          </Button>
+        </Container>
+      )
+    }else if(interested.conection === "AC"){
+      return(
+        <Container className="d-flex flex-row justify-content-end align-items-center p-0">
+          <div className=" rounded d-flex justify-content-center h-75 align-items-center" style={{width:"15%",backgroundColor:"#008000"}}>
+          <FaCheck size="1em" color="white" />
+          </div>
+          
+      </Container>
+      )
+    }else{
+      return(
+        <Container className="d-flex flex-row justify-content-end align-items-center p-0">
+          <div className=" rounded d-flex justify-content-center h-75 align-items-center" style={{width:"15%",backgroundColor:"red"}}>
+          <FaTimes size="1em" color="white" />
+          </div>
+          
+      </Container>
+      )
+    }
+  };
+
   const handleHideModalA = () => setShowModalA(false);
   const handleHideModalI = () => setShowModalI(false);
 
   return (
     <Container>
-      <h1 className="text-center my-4">Mis Interesados</h1>
+      <h1 className="text-center my-4">Mis Ofertas</h1>
       <Row className="d-flex justify-content-md-center">
         {data?.length > 0 &&
           data.map((animal, index) => (
@@ -61,14 +113,10 @@ export const OferrerInteresteesPage = () => {
                             </Button>
                             {interested?.name}
                           </Container>
-                          <Container className="d-flex flex-row justify-content-end align-items-center p-0">
-                            <Button variant="link" className="w-10">
-                              <FaTimesCircle size="1.5em" color="red" />
-                            </Button>
-                            <Button variant="link" className="w-10">
-                              <FaCheckCircle size="1.5em" color="green" />
-                            </Button>
-                          </Container>
+                          
+                          {selectButtons(interested ,animal)}
+                          
+                          
                         </ListGroup.Item>
                       ))}
                   </ListGroup>
@@ -79,11 +127,11 @@ export const OferrerInteresteesPage = () => {
       </Row>
 
       <Modal show={showModalA} onHide={handleHideModalA}>
+        
         <Modal.Header closeButton>
           <Modal.Title>{selectedAnimal?.nombre}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="d-flex flex-column justify-content-center">
-        
             <AnimalModal
           descripcion={selectedAnimal?.descripcion}
           photos={selectedAnimal?.photos}

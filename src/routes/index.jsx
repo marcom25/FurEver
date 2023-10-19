@@ -8,6 +8,7 @@ import { ResgisterOfferer } from "../components/common/RegisterOfferer";
 import { RegisterInterested } from "../components/common/RegisterInterested";
 import { InterestedConectionsPage } from "../pages/InterestedConections";
 import { MaintenencePage } from "../pages/MaintenencePage";
+import { CreateAnimal } from "../pages/CreateAnimal";
 
 export const MyRoutes = () => {
   return (
@@ -18,6 +19,7 @@ export const MyRoutes = () => {
       <Route path="register/interested" element={<RegisterInterested/>}/>
       <Route path="offerer" element={<OffererPage />} />
       <Route path="offerer/interestees" element={<OferrerInteresteesPage />} />
+      <Route path="offerer/adoption" element={<CreateAnimal />} />
       <Route path="interested" element={<InterestedPage />} />
       <Route path="interested/connections" element={<InterestedConectionsPage />} />
       <Route path="interested/sales" element={<MaintenencePage />} />

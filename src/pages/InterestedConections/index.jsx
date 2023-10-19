@@ -8,7 +8,13 @@ import { AnimalModal } from "../../components/Offerers/AnimalModal";
 import { OffererContactModal } from "../../components/Interested/OffererContact";
 
 export const InterestedConectionsPage = () => {
-  const { loading, error, data } = useFetch("interesados/");
+  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  let interestedName
+  
+  if (localStorage.getItem("user")) {
+    interestedName = retrievedData.username
+  }
+  const { loading, error, data } = useFetch("interesados/?name="+interestedName);
   const [showModalA, setShowModalA] = useState(false);
   const [showModalContact, setShowModalContact] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
@@ -49,7 +55,7 @@ export const InterestedConectionsPage = () => {
   const handleHideModaContact = () => setShowModalContact(false);
 
   return (
-    <Container>
+    <Container className="h-100">
       <h1 className="text-center my-4">Mis Conexiónes</h1>
       <Row className="d-flex justify-content-md-center">
       <ListGroup variant="flush" className="w-50">
@@ -77,18 +83,24 @@ export const InterestedConectionsPage = () => {
       </Row>
 
       <Modal show={showModalA} onHide={handleHideModalA}>
-        
+      {console.log(selectedAnimal)}
+      <Modal.Header closeButton>
+          <Modal.Title>{selectedAnimal?.nombre}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex flex-column justify-content-center">
             <AnimalModal
-                nombre={selectedAnimal?.nombre}
-                descripcion={selectedAnimal?.descripcion}
-                photos={selectedAnimal?.photos}
-                especie={selectedAnimal?.especie}
-                raza={selectedAnimal?.raza}
-                edad={selectedAnimal?.edad}
-                peso={selectedAnimal?.peso}
-                vacunas={selectedAnimal?.vacunas_completas}
-                genero={selectedAnimal?.genero}
-            />
+          descripcion={selectedAnimal?.descripcion}
+          photos={selectedAnimal?.photos}
+          especie={selectedAnimal?.especie}
+          raza={selectedAnimal?.raza}
+          edad={selectedAnimal?.edad}
+          peso={selectedAnimal?.peso}
+          vacunas={selectedAnimal?.vacunas_completas}
+          genero={selectedAnimal?.genero}
+
+        />
+
+        </Modal.Body>
       </Modal>
       <Modal show={showModalContact} onHide={handleHideModaContact}>
         
