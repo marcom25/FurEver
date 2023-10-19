@@ -30,7 +30,11 @@ export const AnimalCard = ({
         <Card.Text>Genero: {genero}</Card.Text>
         <Card.Text>Peso : {peso}</Card.Text>
         <Card.Text>Fecha de creacion : {fecha_creacion}</Card.Text>
-        <Button className="align-self-center" variant="primary" onClick={() => setshowMore(false)}>
+        <Button
+          className="align-self-center"
+          variant="primary"
+          onClick={() => setshowMore(false)}
+        >
           Volver
         </Button>
       </Card.Body>
@@ -40,17 +44,20 @@ export const AnimalCard = ({
       <Carousel>
         {photos.map((photo, index) => (
           <Carousel.Item key={index}>
-            <Card.Img src={photo} alt={especie} />
+            <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
+              <Card.Title>{nombre}</Card.Title>
+            <Card.Img
+              src={"https://drive.google.com/uc?id=" + photo.id}
+              alt={especie}
+            />
+              <Card.Text>{descripcion}</Card.Text>
+              <Button variant="primary" onClick={() => setshowMore(true)}>
+                Ver mas
+              </Button>
+            </Card.ImgOverlay>
           </Carousel.Item>
         ))}
       </Carousel>
-      <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
-        <Card.Title>{nombre}</Card.Title>
-        <Card.Text>{descripcion}</Card.Text>
-        <Button variant="primary" onClick={() => setshowMore(true)}>
-          Ver mas
-        </Button>
-      </Card.ImgOverlay>
     </Card>
   );
 };

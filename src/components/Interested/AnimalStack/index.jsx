@@ -9,7 +9,7 @@ import "./index.css";
 export const AnimalStack = () => {
   const { loading, error, data: animals } = useFetch("animal-adp/");
   console.log(animals);
-  const [currentIndex, setCurrentIndex] = useState(animals.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(animals?.length - 1);
   const [lastDirection, setLastDirection] = useState();
 
   const currentIndexRef = useRef(currentIndex);
@@ -26,6 +26,8 @@ export const AnimalStack = () => {
     currentIndexRef.current = val;
   };
 
+
+  const canGoBack = currentIndex < animals.length - 1
   const canSwipe = currentIndex >= 0;
 
   const  swiped = (direction, nameToDelete, index) => {
@@ -43,6 +45,13 @@ export const AnimalStack = () => {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
   };
+
+  const goBack = async () => {
+    if (!canGoBack) return
+    const newIndex = currentIndex + 1
+    updateCurrentIndex(newIndex)
+    await childRefs[newIndex].current.restoreCard()
+  }
 
   return (
     <>
