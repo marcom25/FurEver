@@ -213,7 +213,7 @@ export const RegisterInterested = () => {
               </FieldArray>
 
               <Form.Group className="mb-3" controlId="formGridDescription">
-                <Form.Label>Descripcion</Form.Label>
+                <Form.Label>Descripción</Form.Label>
                 <Form.Control
                   as="textarea"
                   placeholder="Una breve descripcion de como sos"

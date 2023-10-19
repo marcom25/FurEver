@@ -39,7 +39,7 @@ export const Furbar = () => {
                 <Link to="interested/sales" className="nav-link">
                   Venta
                 </Link>
-                <Link to="interested/connections" className="nav-link">
+                <Link to="offerer/interestees" className="nav-link">
                   Mis Ofertas
                 </Link>
               </div>

@@ -40,7 +40,7 @@ export const AnimalCard = ({
       <Carousel>
         {photos.map((photo, index) => (
           <Carousel.Item key={index}>
-            <Card.Img src={photo} alt={especie} />
+            <Card.Img src={photo.link} alt={especie} />
           </Carousel.Item>
         ))}
       </Carousel>

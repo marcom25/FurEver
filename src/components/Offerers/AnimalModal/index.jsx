@@ -15,14 +15,12 @@ export const AnimalModal = ({nombre,descripcion,photos,especie,peso,raza,genero,
     }else{
         genero="Hembra"
     }
+    
 
 
 
     return(
         <>
-        <Modal.Header closeButton>
-          <Modal.Title>{nombre}</Modal.Title>
-        </Modal.Header>
         <Modal.Body className="d-flex flex-column justify-content-center">
         <ListGroup className="d-flex justify-content-center">
         <ListGroup.Item ><b>Especie:</b> {especie}</ListGroup.Item>
@@ -39,7 +37,7 @@ export const AnimalModal = ({nombre,descripcion,photos,especie,peso,raza,genero,
           </ListGroup.Item >
           {photos?.map((photo,index)=>(
             <ListGroup.Item key={photo}>
-            <a href={photo}>
+            <a href={photo.link} target="_blank">
              Foto {index +1}
             </a>
             </ListGroup.Item>
