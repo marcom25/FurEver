@@ -8,42 +8,40 @@ import { API } from "../../API/API";
 // import { useFetch } from "../../../hooks/useFetch";
 
 export const CreateAnimal = () => {
-  const [formData, setFormData] = useState();
   
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await API.post("animal-adp/", formData);
-      } catch (error) {
-        console.log(error);
-      }
-    } 
-
-    postData();
-  }, [formData]);
 
   const schema = yup.object().shape({
     nombre: yup.string().required("Ingresá un nombre"),
     especie: yup.string().required("Ingresá una especie"),
     edad: yup.string().required("Ingresá una edad aproximada"),
-    photo_urls: yup.string().required("Ingresá al menos una foto"),
+    
   });
 
   const initialValue = {
     nombre: "",
     especie: "",
     raza: "",
-    vacunas_completas: "",
-    edad: "",
+    vacunas_completas: false,
+    edad: 0,
     genero: "",
     peso: "",
     descripcion: "",
-    oferente: "",
+    oferente: localStorage.getItem("user").id,
     photo_urls: [
       {
         url: "",
       },
     ],
+  };
+
+  const submitHandler = async (formData) => {
+    try {
+      const response = await API.post("animal-adp/", formData);
+      localStorage.setItem("user", JSON.stringify(response.data.user_data));
+      window.location.assign("/")
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -56,7 +54,7 @@ export const CreateAnimal = () => {
       <Row>
         <Formik
           validationSchema={schema}
-          onSubmit={setFormData}
+          onSubmit={console.log}
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
@@ -68,6 +66,7 @@ export const CreateAnimal = () => {
                     required
                     type="text"
                     name="nombre"
+                    value={values.nombre}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -80,6 +79,7 @@ export const CreateAnimal = () => {
                     required
                     defaultValue="Elige una especie"
                     name="especie"
+                    value={values.especie}
                     onChange={handleChange}
                   >
                     <option value="P">Perro</option>
@@ -100,17 +100,19 @@ export const CreateAnimal = () => {
                   <Form.Control
                     type="text"
                     name="raza"
+                    value={values.raza}
                     onChange={handleChange}
                   />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridAnimSpecies">
+                <Form.Group as={Col} controlId="formGridAnimGender">
                   <Form.Label>Género</Form.Label>
                   <Form.Control
                     type="select"
                     as="select"
                     defaultValue="M"
                     name="genero"
+                    value={values.genero}
                     onChange={handleChange}
                   >
                     <option value="M">Macho</option>
@@ -128,6 +130,7 @@ export const CreateAnimal = () => {
                     required
                     type="number"
                     name="edad"
+                    value={values.edad}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -135,9 +138,10 @@ export const CreateAnimal = () => {
                 <Form.Group as={Col} controlId="formGridName">
                   <Form.Label>Peso Aporx.</Form.Label>
                   <Form.Control
-                    required
+                    
                     type="text"
                     name="peso"
+                    value={values.peso}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -159,6 +163,7 @@ export const CreateAnimal = () => {
                   <Form.Check
                     label="¿El animal tiene todas sus vacunas completas?"
                     name="vacunas_completas"
+                    checked={values.vacunas_completas}
                     onChange={handleChange}
                     reverse
                   />
@@ -194,7 +199,7 @@ export const CreateAnimal = () => {
               </FieldArray>
 
               <Row className="d-flex justify-content-center">
-              <Button variant="primary" className="mb-3 w-25" onClick={submitForm}>
+              <Button variant="primary" className="mb-3 w-25" onClick={() => console.log(values)}>
                 Registrarse
               </Button>
               </Row>
