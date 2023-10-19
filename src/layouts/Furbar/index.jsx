@@ -1,12 +1,20 @@
-import { Navbar, Nav, Container, Image, Row, Col } from "react-bootstrap";
+import { Navbar, Nav, Container, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const Furbar = () => {
   const retrievedData = JSON.parse(localStorage.getItem("user"));
-  let userType
-  
+  let userType;
+
   if (localStorage.getItem("user")) {
-    userType = retrievedData.tipo
+    userType = retrievedData.tipo;
+  }
+
+  const handleLogOut = () => {
+    if (localStorage.getItem("user")) {
+      localStorage.removeItem("user");
+    }
+
+    window.location.reload();
   }
 
   return (
@@ -51,14 +59,20 @@ export const Furbar = () => {
               </div>
             )}
 
-            <div className="d-flex gap-2">
-              <Link to="/login" className="btn btn-primary">
-                Iniciar Sesión
-              </Link>
-              <Link to="/register" className="btn btn-primary">
-                Registrarse
-              </Link>
-            </div>
+            {localStorage.getItem("user") ? (
+              <div className="d-flex gap-2">
+                <Button onClick={()=> handleLogOut()}>Cerrar Sesión</Button>
+              </div>
+            ) : (
+              <div className="d-flex gap-2">
+                <Link to="/login" className="btn btn-primary">
+                  Iniciar Sesión
+                </Link>
+                <Link to="/register" className="btn btn-primary">
+                  Registrarse
+                </Link>
+              </div>
+            )}
           </Nav>
         </Navbar.Offcanvas>
       </Container>
