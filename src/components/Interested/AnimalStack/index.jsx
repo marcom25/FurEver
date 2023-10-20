@@ -1,14 +1,15 @@
 import { useState, useRef, useMemo, createRef } from "react";
 import { Button } from "react-bootstrap";
+import TinderCard from "react-tinder-card";
 import { AnimalCard } from "../AnimalCard";
 import { useFetch } from "../../../hooks/useFetch";
 
 import "./index.css";
 
 export const AnimalStack = () => {
-  const { loading, error, data: animals } = useFetch("animal-adp/");
+  const {data: animals } = useFetch("animal-adp/");
   console.log(animals);
-  const [currentIndex, setCurrentIndex] = useState(animals?.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(animals.length - 1);
   const [lastDirection, setLastDirection] = useState();
 
   const currentIndexRef = useRef(currentIndex);
@@ -25,10 +26,9 @@ export const AnimalStack = () => {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < animals.length - 1;
   const canSwipe = currentIndex >= 0;
 
-  const swiped = (direction, nameToDelete, index) => {
+  const  swiped = (direction, nameToDelete, index) => {
     setLastDirection(direction);
     updateCurrentIndex(index - 1);
   };
@@ -44,13 +44,6 @@ export const AnimalStack = () => {
     }
   };
 
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
-  };
-
   return (
     <>
       <div
@@ -58,7 +51,18 @@ export const AnimalStack = () => {
         style={{ height: "60vh" }}
       >
         {animals?.length > 0 &&
-          animals.map((animal, index) => <AnimalCard {...animal} />)}
+          animals.map((animal, index) => (
+          <TinderCard
+            className="animal-card"
+            ref={childRefs[index]}
+            key={animal.nombre}
+            onSwipe={(dir) => swiped(dir, animal.nombre, index)}
+            onCardLeftScreen={() => outOfFrame(animal.nombre, index)}
+            
+          >
+            <AnimalCard {...animal} />
+          </TinderCard>
+        ))}
       </div>
       <div className="m-2 p-1 rounded-2 w-100 d-flex flex-wrap flex-shrink-0 justify-content-center align-items-center gap-2">
         <Button onClick={() => swipe("left")}>Izquierda</Button>
