@@ -2,10 +2,11 @@ import { Navbar, Nav, Container, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const Furbar = () => {
-  const retrievedData = JSON.parse(localStorage.getItem("user"));
-  let userType;
 
+  let userType;
+  
   if (localStorage.getItem("user")) {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
     userType = retrievedData.tipo;
   }
 
