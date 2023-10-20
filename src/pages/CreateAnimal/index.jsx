@@ -42,7 +42,7 @@ export const CreateAnimal = () => {
   const submitHandler = async (formData) => {
     try {
       const response = await API.post("animal-adp/", formData);
-      console.log(formData)
+      console.log(response)
       window.location.assign("/offerer/interestees/")
     } catch (error) {
       console.log(error);

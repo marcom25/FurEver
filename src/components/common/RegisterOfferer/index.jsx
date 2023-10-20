@@ -26,7 +26,7 @@ export const ResgisterOfferer = () => {
 
   const submitHandler = async (formData) => {
     try {
-      const response = await API.post("register/interested", formData);
+      const response = await API.post("register/offerer", formData);
       console.log(response);
       window.location.assign("/login");
     } catch (error) {
