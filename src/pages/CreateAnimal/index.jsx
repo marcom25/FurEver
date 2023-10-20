@@ -9,6 +9,12 @@ import { API } from "../../API/API";
 
 export const CreateAnimal = () => {
   
+  let userId;
+
+  if (localStorage.getItem("user")) {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
+    userId = retrievedData.tipo;
+  }
 
   const schema = yup.object().shape({
     nombre: yup.string().required("Ingresá un nombre"),
@@ -27,7 +33,7 @@ export const CreateAnimal = () => {
     peso: "",
     descripcion: "",
     necesidades_esp: "",
-    oferente: JSON.parse(localStorage.getItem("user")).id,
+    oferente: userId,
     photo_urls: [
       
     ],
@@ -47,10 +53,10 @@ export const CreateAnimal = () => {
     <>
       <Row>
         <Col className="text-center">
-          <h1>Creacion de tarjeta de animal</h1>
+          <h1 className="my-4">Creacion de tarjeta de animal</h1>
         </Col>
       </Row>
-      <Row>
+      <Row className="w-75">
         <Formik
           validationSchema={schema}
           onSubmit={submitHandler}
@@ -58,7 +64,7 @@ export const CreateAnimal = () => {
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
             <Form noValidate onSubmit={handleSubmit} className="">
-              <Row className="mb-3">
+              <Row className="mb-3 ">
                 <Form.Group as={Col} controlId="formGridName">
                   <Form.Label>Nombre del animal</Form.Label>
                   <Form.Control
@@ -102,7 +108,8 @@ export const CreateAnimal = () => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-
+                </Row>
+                <Row>
                 <Form.Group as={Col} controlId="formGridAnimGender">
                   <Form.Label>Género</Form.Label>
                   <FormSelect

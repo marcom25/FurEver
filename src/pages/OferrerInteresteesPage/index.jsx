@@ -45,7 +45,7 @@ export const OferrerInteresteesPage = () => {
   const selectButtons = (interested,animal) => {
     if(interested.conection === "EE"){
       return(
-        <Container className="d-flex flex-row justify-content-end align-items-center p-0">
+        <Container className="d-flex flex-row justify-content-end p-0 h-100">
           <Button variant="link" className="w-10" onClick={()=>decideHandler({"interested":interested.id,
                                                                           "animal":animal.id,
                                                                           "answer":"reject"})}>
@@ -83,7 +83,7 @@ export const OferrerInteresteesPage = () => {
   const handleHideModalI = () => setShowModalI(false);
 
   return (
-    <Container>
+    <Container className="h-100">
       <h1 className="text-center my-4">Mis Ofertas</h1>
       <Row className="d-flex justify-content-md-center">
         {data?.length > 0 &&

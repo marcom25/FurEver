@@ -19,7 +19,15 @@ export const Login = () => {
     try {
       const response = await API.post("login/", formData);
       localStorage.setItem("user", JSON.stringify(response.data.user_data));
-      window.location.assign("/")
+      console.log(JSON.stringify(response.data.user_data).tipo)
+      console.log(JSON.stringify(response.data.user_data))
+
+      if(JSON.parse(localStorage.getItem("user")).tipo === "Offerer"){
+        window.location.assign("/offerer/interestees")
+      }else{
+        window.location.assign("/interested/")
+      }
+      
     } catch (error) {
       console.log(error);
     }
