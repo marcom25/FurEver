@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FieldArray, Formik } from "formik";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, FormSelect } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
 import { API } from "../../API/API";
@@ -19,26 +19,25 @@ export const CreateAnimal = () => {
 
   const initialValue = {
     nombre: "",
-    especie: "",
+    especie: "P",
     raza: "",
     vacunas_completas: false,
     edad: 0,
-    genero: "",
+    genero: "M",
     peso: "",
     descripcion: "",
-    oferente: localStorage.getItem("user").id,
+    necesidades_esp: "",
+    oferente: JSON.parse(localStorage.getItem("user")).id,
     photo_urls: [
-      {
-        url: "",
-      },
+      
     ],
   };
 
   const submitHandler = async (formData) => {
     try {
       const response = await API.post("animal-adp/", formData);
-      localStorage.setItem("user", JSON.stringify(response.data.user_data));
-      window.location.assign("/")
+      console.log(formData)
+      window.location.assign("/offerer/interestees/")
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +53,7 @@ export const CreateAnimal = () => {
       <Row>
         <Formik
           validationSchema={schema}
-          onSubmit={console.log}
+          onSubmit={submitHandler}
           initialValues={initialValue}
         >
           {({ submitForm, handleSubmit, handleChange, values, errors }) => (
@@ -73,13 +72,12 @@ export const CreateAnimal = () => {
 
                 <Form.Group as={Col} controlId="formGridAnimSpecies">
                   <Form.Label>Especie</Form.Label>
-                  <Form.Control
-                    type="select"
+                  <FormSelect
+                    type="text"
                     as="select"
                     required
                     defaultValue="Elige una especie"
                     name="especie"
-                    value={values.especie}
                     onChange={handleChange}
                   >
                     <option value="P">Perro</option>
@@ -89,7 +87,7 @@ export const CreateAnimal = () => {
                     <option value="S">Serpiente</option>
                     <option value="DG">De granja</option>
                     <option value="O">Otros</option>
-                  </Form.Control>
+                  </FormSelect>
                   <Form.Control.Feedback type="invalid">
                     {errors.especie}
                   </Form.Control.Feedback>
@@ -107,18 +105,17 @@ export const CreateAnimal = () => {
 
                 <Form.Group as={Col} controlId="formGridAnimGender">
                   <Form.Label>Género</Form.Label>
-                  <Form.Control
-                    type="select"
+                  <FormSelect
+                    type="text"
                     as="select"
+                    required
                     defaultValue="M"
                     name="genero"
-                    value={values.genero}
                     onChange={handleChange}
                   >
                     <option value="M">Macho</option>
                     <option value="H">Hembra</option>
-
-                  </Form.Control>
+                  </FormSelect>
                   <Form.Control.Feedback type="invalid">
                     {errors.genero}
                   </Form.Control.Feedback>
@@ -159,9 +156,9 @@ export const CreateAnimal = () => {
                 </Form.Group>
 
 
-                <Form.Group as={Col} controlId="formGridVac">
+                <Form.Group as={Col} controlId="formGridVac" className="d-flex justify-content-start">
                   <Form.Check
-                    label="¿El animal tiene todas sus vacunas completas?"
+                    label="El animal tiene todas sus vacunas completas:"
                     name="vacunas_completas"
                     checked={values.vacunas_completas}
                     onChange={handleChange}
@@ -169,9 +166,18 @@ export const CreateAnimal = () => {
                   />
                 </Form.Group>
 
+                <Form.Group className="mb-3" controlId="formGridNeeds">
+                <Form.Label>¿Tiene alguna necesidad o cuidado especial?</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Dieta especial, ..."
+                  name="necesidades_esp"
+                  onChange={handleChange}
+                />
+                </Form.Group>
+
                 
               </Row>
-
               <FieldArray name="photo_urls">
                 {({ insert, remove, push }) => (
                   <Form.Group className="mb-3" controlId="formGridPhotos">
@@ -182,7 +188,7 @@ export const CreateAnimal = () => {
                           <Form.Control
                             type="url"
                             placeholder="Poné el link de compartir foto aquí"
-                            name={`photo_urls.${index}.url`}
+                            name={`photo_urls.${index}`}
                             onChange={handleChange}
                           />
                           <Button type="button" className="mb-2" onClick={() => remove(index)}>
@@ -199,8 +205,8 @@ export const CreateAnimal = () => {
               </FieldArray>
 
               <Row className="d-flex justify-content-center">
-              <Button variant="primary" className="mb-3 w-25" onClick={() => console.log(values)}>
-                Registrarse
+              <Button variant="primary" className="mb-3 w-25" onClick={submitForm}>
+                Crear
               </Button>
               </Row>
               

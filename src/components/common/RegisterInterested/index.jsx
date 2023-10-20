@@ -108,7 +108,7 @@ export const RegisterInterested = () => {
               <Row>
                 <Form.Group as={Col} controlId="formGridHasKids">
                   <Form.Check
-                    label="¿Tenés hijos?"
+                    label="¿Tiene hijos?"
                     name="ninos"
                     checked={values.ninos}
                     onChange={handleChange}
@@ -117,7 +117,7 @@ export const RegisterInterested = () => {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPrevAnim">
                   <Form.Check
-                    label="¿Tuviste animales previos?"
+                    label="¿Tuvo animales previos?"
                     name="animales_previos"
                     checked={values.animales_previos}
                     onChange={handleChange}
@@ -126,7 +126,7 @@ export const RegisterInterested = () => {
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridNowAnim">
                   <Form.Check
-                    label="¿Tenés animales actualmente?"
+                    label="¿Tiene animales actualmente?"
                     name="animales_actuales"
                     checked={values.animales_actuales}
                     onChange={handleChange}
@@ -134,17 +134,17 @@ export const RegisterInterested = () => {
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridAnimSpace">
-                  <Form.Label>Espacio para el animal</Form.Label>
+                  <Form.Label>¿Cuanto espacio tendrá el animal?</Form.Label>
                   <Form.Control
                     type="select"
                     as="select"
                     required
-                    defaultValue="Elegí un espacio"
+                    defaultValue="Eliga un espacio"
                     name="tipo_hogar"
                     onChange={handleChange}
                     isInvalid={errors.username}
                   >
-                    <option value="">Elegí un espacio</option>
+                    <option value="">Eliga un espacio</option>
                     <option value="Menos de 50m²">Menos de 50m²</option>
                     <option value="Entre 50m² y 150m²">
                       Entre 50m² y 150m²
@@ -164,18 +164,18 @@ export const RegisterInterested = () => {
 
                 <Form.Group as={Col} controlId="formGridSchedules">
                   <Form.Label>
-                    ¿Cuanto tiempo le vas a poder dedicar al animal?
+                    ¿Cuanto tiempo le podrá dedicar al animal?
                   </Form.Label>
                   <Form.Control
                     type="select"
                     as="select"
                     required
-                    defaultValue="Elegí un rango horario"
+                    defaultValue="Eliga un rango horario"
                     name="horarios"
                     onChange={handleChange}
                     isInvalid={errors.username}
                   >
-                    <option value="">Elegí un rango horario</option>
+                    <option value="">Eliga un rango horario</option>
                     <option value="2-3 horas por día">2-3 horas por día</option>
                     <option value="4-5 horas por día">4-5 horas por día</option>
                     <option value="Más de 6 horas">Más de 6 horas</option>

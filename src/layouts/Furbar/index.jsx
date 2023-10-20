@@ -2,10 +2,11 @@ import { Navbar, Nav, Container, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const Furbar = () => {
-  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  
   let userType;
 
   if (localStorage.getItem("user")) {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
     userType = retrievedData.tipo;
   }
 
@@ -41,7 +42,7 @@ export const Furbar = () => {
               </div>
             ) : userType === "Offerer" ? (
               <div className="d-flex flex-grow-1 justify-content-center">
-                <Link to="interested" className="nav-link">
+                <Link to="offerer/adoption" className="nav-link">
                   Adopción
                 </Link>
                 <Link to="interested/sales" className="nav-link">
