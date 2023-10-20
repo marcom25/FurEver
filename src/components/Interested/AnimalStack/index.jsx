@@ -7,7 +7,16 @@ import { useFetch } from "../../../hooks/useFetch";
 import "./index.css";
 
 export const AnimalStack = () => {
-  const {data: animals } = useFetch("animal-adp/");
+
+  let userId;
+
+  if (localStorage.getItem("user")) {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
+    
+    userId = retrievedData.id;
+  }
+
+  const {data: animals } = useFetch("animal-adp/?interested="+userId);
   console.log(animals);
   const [currentIndex, setCurrentIndex] = useState(animals.length - 1);
   const [lastDirection, setLastDirection] = useState();
