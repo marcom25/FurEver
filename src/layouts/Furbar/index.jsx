@@ -21,7 +21,7 @@ export const Furbar = () => {
   }
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg">
       <Container>
         <Link to="/" className="navbar-brand">
           <Image src="/images/FurEver__logo.png" width={125} alt="Logo" fluid />

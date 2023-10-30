@@ -1,73 +1,109 @@
-import { useState, useRef, useMemo, createRef } from "react";
-import { Button } from "react-bootstrap";
-import TinderCard from "react-tinder-card";
+import { useState } from "react";
+
 import { AnimalCard } from "../AnimalCard";
 import { useFetch } from "../../../hooks/useFetch";
-
-import "./index.css";
+import { Card } from "react-bootstrap";
+import { API } from "../../../API/API";
 
 export const AnimalStack = () => {
-  const {data: animals } = useFetch("animal-adp/");
-  console.log(animals);
-  const [currentIndex, setCurrentIndex] = useState(animals.length - 1);
-  const [lastDirection, setLastDirection] = useState();
+  const { data: animals } = useFetch("animal-adp/");
 
-  const currentIndexRef = useRef(currentIndex);
-  const childRefs = useMemo(
-    () =>
-      Array(animals.length)
-        .fill(0)
-        .map((i) => createRef()),
-    []
-  );
+  let [cardIndex, setCardIndex] = useState(0);
+  const [type, setType] = useState("");
+  const session = JSON.parse(localStorage.getItem("user"));
 
-  const updateCurrentIndex = (val) => {
-    setCurrentIndex(val);
-    currentIndexRef.current = val;
-  };
+  const handleLike = async (card) => {
+    console.log("Liked: ", card);
+    setType("P");
+    next(card);
+  }
 
-  const canSwipe = currentIndex >= 0;
+  const handleDislike = async (card) => {
+    console.log("DisLiked: ", card);
+    setType("N");
+    next(card);
+  }
 
-  const  swiped = (direction, nameToDelete, index) => {
-    setLastDirection(direction);
-    updateCurrentIndex(index - 1);
-  };
-
-  const outOfFrame = (name, idx) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    // handle the case in which go back is pressed before card goes outOfFrame
-  };
-
-  const swipe = async (dir) => {
-    if (canSwipe && currentIndex < animals.length) {
-      await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
+  const next = async (card) => {
+    try {
+      const response = await API.post("card-d/", {
+        interested: session.id,
+        animal: card.id,
+        type: type
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
     }
+    setCardIndex((prevCardIndex) => {
+      const nextIndex = (prevCardIndex + 1) % animals.length;
+      const nextCard = animals[nextIndex];
+      return nextIndex;
+    });
   };
+
 
   return (
     <>
-      <div
-        className="d-flex justify-content-center w-100"
-        style={{ height: "60vh" }}
-      >
-        {animals?.length > 0 &&
-          animals.map((animal, index) => (
-          <TinderCard
-            className="animal-card"
-            ref={childRefs[index]}
-            key={animal.nombre}
-            onSwipe={(dir) => swiped(dir, animal.nombre, index)}
-            onCardLeftScreen={() => outOfFrame(animal.nombre, index)}
-            
+      <div className="d-flex justify-content-center w-100 position-relative" style={{height: "80vh"}}>
+        <div className={"desk"}>
+          <AnimalCard
+            card={animals[cardIndex]}
+            nextCard={animals[(cardIndex + 1) % animals.length]}
+            onDisliked={handleDislike}
+            onLiked={handleLike}
           >
-            <AnimalCard {...animal} />
-          </TinderCard>
-        ))}
-      </div>
-      <div className="m-2 p-1 rounded-2 w-100 d-flex flex-wrap flex-shrink-0 justify-content-center align-items-center gap-2">
-        <Button onClick={() => swipe("left")}>Izquierda</Button>
-        <Button onClick={() => swipe("right")}>Derecha</Button>
+            {(card) =>
+              animals.length > 0 && card ? (
+                <Card draggable="false">
+                  <Card.Img
+                    src={
+                      card.photos[0]
+                        ? "https://drive.google.com/uc?id=" + card.photos[0].id
+                        : ""
+                    }
+                    alt={card.nombre}
+                    key={card.id}
+                  />
+
+                  <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
+                    <Card.Title>{card.nombre}</Card.Title>
+                    <Card.Text>{card.descripcion}</Card.Text>
+                  </Card.ImgOverlay>
+                </Card>
+              ) : (
+                <div>Spinner</div>
+              )
+            }
+          </AnimalCard>
+        </div>
       </div>
     </>
   );
 };
+
+// return (
+//   <>
+//     <div
+//       className="d-flex justify-content-center w-100"
+//       style={{ height: "60vh" }}
+//     >
+//       {animals?.length > 0 &&
+//         animals.map((animal, index) => (
+//         <div
+//           className="animal-card"
+//           ref={childRefs[index]}
+//           key={animal.nombre}
+//           onSwipe={(dir) => swiped(dir, animal.nombre, index)}
+//           onCardLeftScreen={() => outOfFrame(animal.nombre, index)}
+//         >
+//           <AnimalCard {...animal} />
+//         </div>
+//       ))}
+//     </div>
+//     <div className="m-2 p-1 rounded-2 w-100 d-flex flex-wrap flex-shrink-0 justify-content-center align-items-center gap-2">
+//       <Button onClick={() => swipe("left")}>Izquierda</Button>
+//       <Button onClick={() => swipe("right")}>Derecha</Button>
+//     </div>
+//   </>
+// );

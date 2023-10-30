@@ -8,13 +8,13 @@ function App() {
   return (
     <>
       <Container fluid className="d-flex flex-column h-100">
-        <Row>
+        <Row className="light-bg">
           <Furbar />
         </Row>
         <Row className="justify-content-center align-items-center flex-grow-1 h-100">
           <MyRoutes />
         </Row>
-        <Row className="position-absolute bottom-0 w-100">
+        <Row className="fur-bg justify-content-center">
           <Footer />
         </Row>
       </Container>

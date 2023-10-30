@@ -1,0 +1,25 @@
+@mixin use_hvCenteredContent() {
+
+    &:before {
+      content: ' ';
+      display: inline-block;
+      height: 100%;
+      width: 1px;
+      margin-right: -1px;
+      vertical-align: middle;
+      overflow: hidden;
+    }
+    text-align: center;
+    > * {
+      text-align: left;
+      vertical-align: middle;
+      display: inline-block;
+    }
+  }
+  
+  @mixin use_hvCenteredAbs() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@600&display=swap');
+@import "./utils/scss/mixins";
+@import "./utils/scss/variables";
+@import "./components/Interested/AnimalCard/index.scss";
+@import "./components//Interested/AnimalStack/index.scss";
+
+
+
+body,
+html {
+    font-family: 'Signika Negative', sans-serif;}
+
+
+.light-bg {
+    background-color: lighten($fur-color, 30%)
+}
+
+.fur-bg {
+    background-color: $fur-color;
+}
+
+.dark-bg {
+    background-color: darken($fur-color, 20%)
+}
+
+.link {
+    color: $fur-scd-color;
+    &:hover {
+        color: darken($fur-scd-color, 20%);
+    }
+}

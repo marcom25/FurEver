@@ -1,0 +1,42 @@
+.animal-card {
+  position: absolute;
+  height: inherit;
+}
+
+.desk {
+  @include use_hvCenteredAbs();
+  @include use_hvCenteredContent();
+  background: $card-color;
+  border-radius: 20px;
+  // box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  // backdrop-filter: blur(10px);
+  // -webkit-backdrop-filter: blur(10px);
+  // border: 1px solid $card-color;
+  max-width: 375px;
+  max-height: 667px;
+  height: 100%;
+  width: 100%;
+
+  .notif {
+    @include use_hvCenteredContent();
+    height: 96px;
+    width: 100%;
+    background: $card-color;
+    border-radius: 20px;
+    // box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    // backdrop-filter: blur(10px);
+    // -webkit-backdrop-filter: blur(10px);
+    // border: 1px solid $card-color;
+  }
+
+  .SwipeCard {
+    .card,
+    .nextCard {
+      div {
+        @include use_hvCenteredContent();
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
