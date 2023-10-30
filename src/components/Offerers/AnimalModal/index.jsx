@@ -1,9 +1,10 @@
 import React from "react";
-import {ListGroup,Modal } from 'react-bootstrap';
+import {ListGroup,Modal,Button,Row } from 'react-bootstrap';
+import axios from "axios";
 
 
 
-export const AnimalModal = ({nombre,descripcion,photos,especie,peso,raza,genero,vacunas,edad})=> {
+export const AnimalModal = ({id,nombre,descripcion,photos,especie,peso,raza,genero,vacunas,edad})=> {
     if(vacunas === true){
         vacunas = "SI"
     }else{
@@ -15,6 +16,15 @@ export const AnimalModal = ({nombre,descripcion,photos,especie,peso,raza,genero,
     }else{
         genero="Hembra"
     }
+    const decideDelete = async (animal) => {
+        try {
+          const response = await axios.delete("http://localhost:8000/furever/api/animal-adp/"+ animal+"/");
+          window.location.reload()
+    
+        } catch (error) {
+          console.log(error);
+        }
+      };
     
 
 
@@ -45,6 +55,11 @@ export const AnimalModal = ({nombre,descripcion,photos,especie,peso,raza,genero,
           ))}
           
         </ListGroup>
+        <Row className="d-flex justify-content-center mt-3">
+        <Button className="w-50" variant="outline-danger" onClick={() => decideDelete(id)}> Eliminar animal </Button>
+
+        </Row>
+
         </Modal.Body>
         </>
     );

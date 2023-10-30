@@ -133,6 +133,7 @@ export const OferrerInteresteesPage = () => {
         </Modal.Header>
         <Modal.Body className="d-flex flex-column justify-content-center">
             <AnimalModal
+            id={selectedAnimal?.id}
           descripcion={selectedAnimal?.descripcion}
           photos={selectedAnimal?.photos}
           especie={selectedAnimal?.especie}

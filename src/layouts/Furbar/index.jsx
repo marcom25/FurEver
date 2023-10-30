@@ -17,7 +17,7 @@ export const Furbar = () => {
       localStorage.removeItem("user");
     }
 
-    window.location.reload();
+    window.location.assign("/login");
   }
 
   return (

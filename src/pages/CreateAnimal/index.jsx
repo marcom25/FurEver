@@ -13,7 +13,7 @@ export const CreateAnimal = () => {
 
   if (localStorage.getItem("user")) {
     const retrievedData = JSON.parse(localStorage.getItem("user"));
-    userId = retrievedData.tipo;
+    userId = retrievedData.id;
   }
 
   const schema = yup.object().shape({
