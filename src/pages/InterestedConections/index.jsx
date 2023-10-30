@@ -6,6 +6,9 @@ import { FaTimesCircle, } from "react-icons/fa";
 import { useFetch } from "../../hooks/useFetch";
 import { AnimalModal } from "../../components/Offerers/AnimalModal";
 import { OffererContactModal } from "../../components/Interested/OffererContact";
+import { APID } from "../../API/API";
+import axios from "axios";
+
 
 export const InterestedConectionsPage = () => {
   const retrievedData = JSON.parse(localStorage.getItem("user"));
@@ -17,6 +20,7 @@ export const InterestedConectionsPage = () => {
   const { loading, error, data } = useFetch("interesados/?name="+interestedName);
   const [showModalA, setShowModalA] = useState(false);
   const [showModalContact, setShowModalContact] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   const handleShowModalA = (animal) => {
@@ -27,6 +31,21 @@ export const InterestedConectionsPage = () => {
     setSelectedAnimal(animal);
     setShowModalContact(true);
   };
+
+  const decideDelete = async (connection) => {
+    try {
+      const response = await axios.delete("http://localhost:8000/furever/api/conexiones/"+ connection+"/");
+      window.location.reload()
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleShowModalDelete = (animal) => {
+    setSelectedAnimal(animal);
+    setShowModalDelete(true);
+  };  
 
    const handleStatus=(word)=>{
     if(word === 'EE') return "En espera"
@@ -52,6 +71,7 @@ export const InterestedConectionsPage = () => {
    }
 
   const handleHideModalA = () => setShowModalA(false);
+  const handleHideModalDelete = () => setShowModalDelete(false);
   const handleHideModaContact = () => setShowModalContact(false);
 
   return (
@@ -69,13 +89,13 @@ export const InterestedConectionsPage = () => {
                     {animal?.nombre}
                   </Container>
                   <Container className="d-flex flex-row justify-content-end align-items-center p-0">
-                    <h5 className="my-0 mx-2">
+                    <h5 className="my-0 mx-2" >
                         <Badge bg={handleBadge(animal?.status)}>{handleStatus(animal?.status)}</Badge>
                     </h5>
                     {showContact(animal?.status,animal)}
-                    <Button variant="link" className="w-10">
+                    <Button variant="link" className="w-10" onClick={() => handleShowModalDelete(animal)}>
                               <FaTimesCircle size="1.5em" color="red" />
-                            </Button>
+                    </Button>
                   </Container>
                 </ListGroup.Item>
           ))}
@@ -83,7 +103,6 @@ export const InterestedConectionsPage = () => {
       </Row>
 
       <Modal show={showModalA} onHide={handleHideModalA}>
-      {console.log(selectedAnimal)}
       <Modal.Header closeButton>
           <Modal.Title>{selectedAnimal?.nombre}</Modal.Title>
         </Modal.Header>
@@ -109,6 +128,17 @@ export const InterestedConectionsPage = () => {
                 telefono={selectedAnimal?.o_phone}
             />
         </Modal>
+      
+      <Modal show={showModalDelete} onHide={handleHideModalDelete}>
+      <Modal.Header closeButton>
+          <Modal.Title className="text-center">¿Estas seguro que quieres eliminar tu conexión con {selectedAnimal?.nombre}?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex flex-row justify-content-evenly">
+          <Button className="w-25" variant="outline-danger" onClick={() => decideDelete(selectedAnimal?.connection)}> Si </Button>
+          <Button className="w-25" variant="outline-success"> No </Button>            
+
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };
