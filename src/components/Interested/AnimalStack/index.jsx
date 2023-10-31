@@ -6,30 +6,34 @@ import { Card } from "react-bootstrap";
 import { API } from "../../../API/API";
 
 export const AnimalStack = () => {
-  const { data: animals } = useFetch("animal-adp/");
+  const session = JSON.parse(localStorage.getItem("user"));
+  const { data: animals } = useFetch("animal-adp/?interested="+session.id);
 
   let [cardIndex, setCardIndex] = useState(0);
-  const [type, setType] = useState("");
-  const session = JSON.parse(localStorage.getItem("user"));
+  let type_d;
+  
 
   const handleLike = async (card) => {
     console.log("Liked: ", card);
-    setType("P");
-    next(card);
+    next(card,"like");
   }
 
   const handleDislike = async (card) => {
     console.log("DisLiked: ", card);
-    setType("N");
-    next(card);
+    next(card,"dis");
   }
 
-  const next = async (card) => {
+  const next = async (card,desi) => {
+    if(desi == "like"){
+      type_d = "P"
+    }else{
+      type_d="N"
+    }
     try {
       const response = await API.post("card-d/", {
         interested: session.id,
         animal: card.id,
-        type: type
+        type: type_d
       });
       console.log(response);
     } catch (error) {
