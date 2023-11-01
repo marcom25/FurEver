@@ -135,7 +135,7 @@ export const InterestedConectionsPage = () => {
         </Modal.Header>
         <Modal.Body className="d-flex flex-row justify-content-evenly">
           <Button className="w-25" variant="outline-danger" onClick={() => decideDelete(selectedAnimal?.connection)}> Si </Button>
-          <Button className="w-25" variant="outline-success"> No </Button>            
+          <Button className="w-25" variant="outline-success" onClick={() => handleHideModalDelete()}> No </Button>            
 
         </Modal.Body>
       </Modal>
