@@ -4,8 +4,8 @@ export const anims = { pushIn };
 export const card = {
   style: {
     position: "absolute",
-    top: "10px",
-    left: "10px",
+    // top: "10px",
+    // left: "10px",
     width: ["100%", "-20px"],
     height: ["100%", "-170px"],
     transform: [
@@ -190,8 +190,8 @@ export const likeOverlay = {
 export const nextCard = {
   style: {
     position: "absolute",
-    top: "10px",
-    left: "10px",
+    // top: "10px",
+    // left: "10px",
     width: ["100%", "-20px"],
     height: ["100%", "-170px"],
     perspective: "1",

@@ -6,12 +6,12 @@ export const InterestedPage = () => {
   return (
     <>
       <Row>
-        <Col className="text-center">
+        <Col className="text-center my-4">
           <h1>Encontremos a tu nuevo mejor amigo!</h1>
         </Col>
       </Row>
       <Row>
-        <Col>
+        <Col className="mb-4">
           <AnimalStack />
         </Col>
       </Row>

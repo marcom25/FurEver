@@ -1,4 +1,6 @@
 import { useState, useRef, useMemo, useEffect } from "react";
+import { BsHeartFill } from "react-icons/bs";
+import { FiX } from "react-icons/fi";
 import Voodoo from "react-voodoo";
 import * as cardStyles from "../../../utils/utils.js";
 
@@ -46,10 +48,10 @@ export const AnimalCard = ({
           from: 15,
           duration: 0.01,
           entering: (pos) => {
-            if (pos < 0) {
-              // from 50 to 0 ( init go from 0 to 50 )
+            if (pos < 0 && !events.current.hasSwiped) {
               events.current.onDisliked?.(events.current?.curCard);
               tweener.pushAnim(cardStyles.anims.pushIn("dislikeOverlay", 250));
+              events.current.hasSwiped = true;
             }
           },
         },
@@ -57,10 +59,10 @@ export const AnimalCard = ({
           from: 85,
           duration: 0.01,
           entering: (pos) => {
-            if (pos > 0) {
-              // from 50 to 100
+            if (pos > 0 && !events.current.hasSwiped) {
               events.current.onLiked?.(events.current?.curCard);
               tweener.pushAnim(cardStyles.anims.pushIn("likeOverlay", 250));
+              events.current.hasSwiped = true;
             }
           },
         },
@@ -70,7 +72,7 @@ export const AnimalCard = ({
 
   useEffect(
     (e) => {
-      events.current = { onDisliked, onLiked, curCard };
+      events.current = { onDisliked, onLiked, curCard, hasSwiped: false };
     },
     [onDisliked, onLiked, curCard]
   );
@@ -119,7 +121,7 @@ export const AnimalCard = ({
 
       <div className={"layer"}>
         <Voodoo.Node axes={styles.nextCard.axes} style={styles.nextCard.style}>
-          <div className={"nextCard"} draggable="false" key={"nextCard"}>
+          <div className="nextCard w-100 h-100" draggable="false" key={"nextCard"}>
             {renderCard?.(curNextCard)}
           </div>
         </Voodoo.Node>
@@ -133,7 +135,7 @@ export const AnimalCard = ({
           xAxis={"hSwipe"}
         >
           <Voodoo.Node axes={styles.card.axes} style={styles.card.style}>
-            <div className={"card"} draggable="false">
+            <div className="card w-100 h-100" draggable="false">
               {renderCard?.(curCard)}
             </div>
           </Voodoo.Node>
@@ -161,71 +163,21 @@ export const AnimalCard = ({
         </Voodoo.Node>
       </div>
       <div
-        className={"likeBtn"}
+        className="likeBtn text-success"
         onClick={(e) =>
           tweener.axes.hSwipe.scrollTo(100, 500, "easeCubicInOut")
         }
       >
-        ❤️
+        <BsHeartFill className="icons"/>
       </div>
       <div
-        className={"dislikeBtn"}
+        className="dislikeBtn text-danger"
         onClick={(e) => tweener.axes.hSwipe.scrollTo(0, 500, "easeCubicInOut")}
       >
-        ❌
+        <FiX className="icons"/>
       </div>
     </ViewBox>
   );
 };
 
-// export const AnimalCard = ({
-//   nombre,
-//   especie,
-//   raza,
-//   vacunas_completas,
-//   edad,
-//   necesidades_esp,
-//   photos,
-//   genero,
-//   peso,
-//   descripcion,
-//   fecha_creacion,
-// }) => {
-//   const [showMore, setshowMore] = useState(false);
 
-//   return showMore ? (
-//     <Card className="rounded-3 h-100" style={{ width: "20vw" }}>
-//       <Card.Body className="d-flex align-items-start flex-column justify-content-center">
-//         <Card.Title>Informacion de {nombre}</Card.Title>
-//         <Card.Text>Especie: {especie}</Card.Text>
-//         <Card.Text>Raza: {raza}</Card.Text>
-//         <Card.Text>
-//           Vacunas Completas: {vacunas_completas ? "✅" : "❌"}
-//         </Card.Text>
-//         <Card.Text>Edad: {edad}</Card.Text>
-//         <Card.Text>Necesidades Especiales: {necesidades_esp}</Card.Text>
-//         <Card.Text>Genero: {genero}</Card.Text>
-//         <Card.Text>Peso : {peso}</Card.Text>
-//         <Card.Text>Fecha de creacion : {fecha_creacion}</Card.Text>
-//         <Button
-//           className="align-self-center"
-//           variant="primary"
-//           onClick={() => setshowMore(false)}
-//         >
-//           Volver
-//         </Button>
-//       </Card.Body>
-//     </Card>
-//   ) : (
-//     <Card className="rounded-3 h-100" style={{ width: "20vw" }}>
-//       <Card.Img src={ photos.length > 0 ? "https://drive.google.com/uc?id="+photos[0].id : placeholderImg} alt={especie} />
-//       <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
-//         <Card.Title>{nombre}</Card.Title>
-//         <Card.Text>{descripcion}</Card.Text>
-//         <Button variant="primary" onClick={() => setshowMore(true)}>
-//           Ver mas
-//         </Button>
-//       </Card.ImgOverlay>
-//     </Card>
-//   );
-// };

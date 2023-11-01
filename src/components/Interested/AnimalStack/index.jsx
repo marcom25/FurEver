@@ -16,20 +16,20 @@ export const AnimalStack = () => {
     console.log("Liked: ", card);
     setType("P");
     next(card);
-  }
+  };
 
   const handleDislike = async (card) => {
     console.log("DisLiked: ", card);
     setType("N");
     next(card);
-  }
+  };
 
   const next = async (card) => {
     try {
       const response = await API.post("card-d/", {
         interested: session.id,
         animal: card.id,
-        type: type
+        type: type,
       });
       console.log(response);
     } catch (error) {
@@ -42,10 +42,12 @@ export const AnimalStack = () => {
     });
   };
 
-
   return (
     <>
-      <div className="d-flex justify-content-center w-100 position-relative" style={{height: "80vh"}}>
+      <div
+        className="d-flex justify-content-center w-100 position-relative"
+        style={{ height: "80vh" }}
+      >
         <div className={"desk"}>
           <AnimalCard
             card={animals[cardIndex]}
@@ -55,7 +57,7 @@ export const AnimalStack = () => {
           >
             {(card) =>
               animals.length > 0 && card ? (
-                <Card draggable="false">
+                <Card draggable="false" className="position-relative">
                   <Card.Img
                     src={
                       card.photos[0]
@@ -66,9 +68,16 @@ export const AnimalStack = () => {
                     key={card.id}
                   />
 
-                  <Card.ImgOverlay className="d-flex align-items-center flex-column justify-content-end">
-                    <Card.Title>{card.nombre}</Card.Title>
-                    <Card.Text>{card.descripcion}</Card.Text>
+                  <Card.ImgOverlay className="d-flex align-items-center flex-column animal-card text-white">
+                    <Card.Body className="d-flex justify-content-start flex-column">
+                      <Card.Title className="fs-3">
+                        {card.nombre} <span>{card.edad}</span>
+                      </Card.Title>
+                      <Card.Text className="m-0 fs-6">
+                        {card.descripcion.substring(0, 150)}{" "}
+                        {card.descripcion >= 20 && "..."}
+                      </Card.Text>
+                    </Card.Body>
                   </Card.ImgOverlay>
                 </Card>
               ) : (
@@ -82,28 +91,4 @@ export const AnimalStack = () => {
   );
 };
 
-// return (
-//   <>
-//     <div
-//       className="d-flex justify-content-center w-100"
-//       style={{ height: "60vh" }}
-//     >
-//       {animals?.length > 0 &&
-//         animals.map((animal, index) => (
-//         <div
-//           className="animal-card"
-//           ref={childRefs[index]}
-//           key={animal.nombre}
-//           onSwipe={(dir) => swiped(dir, animal.nombre, index)}
-//           onCardLeftScreen={() => outOfFrame(animal.nombre, index)}
-//         >
-//           <AnimalCard {...animal} />
-//         </div>
-//       ))}
-//     </div>
-//     <div className="m-2 p-1 rounded-2 w-100 d-flex flex-wrap flex-shrink-0 justify-content-center align-items-center gap-2">
-//       <Button onClick={() => swipe("left")}>Izquierda</Button>
-//       <Button onClick={() => swipe("right")}>Derecha</Button>
-//     </div>
-//   </>
-// );
+// <Card.Text className="m-0">Genero: {card.genero == "M" ? "Macho": "Hembra"}</Card.Text>

@@ -18,6 +18,8 @@
   }
 }
 
+
+
 .SwipeCard {
   backface-visibility: hidden;
 
@@ -41,17 +43,24 @@
     position: absolute;
     bottom: 20px;
     right: 20px;
-    height: 120px;
-    width: 120px;
+    height: 1em;
+    width: 1em;
+    font-size: 1rem;
     line-height: 10px;
     font-size: 65px;
-    background: white;
+    background: transparent;
+    color: green;
+    border: green solid 2px;
     border-radius: 150px;
     cursor: pointer;
     transition: all 500ms;
 
     &:hover {
       background: lightgray;
+    }
+
+    .icons {
+      font-size: 2rem;
     }
   }
 
@@ -60,11 +69,14 @@
     position: absolute;
     bottom: 20px;
     left: 20px;
-    height: 120px;
-    width: 120px;
+    height: 1em;
+    width: 1em;
+    font-size: 1rem;
     line-height: 10px;
     font-size: 65px;
-    background: white;
+    background: transparent;
+    color: red;
+    border: red solid 2px;
     border-radius: 150px;
     cursor: pointer;
     transition: all 500ms;
@@ -72,7 +84,12 @@
     &:hover {
       background: lightgray;
     }
+    .icons {
+      font-size: 2.3rem;
+    }
   }
+
+  
 
   .dislikeOverlay {
     //width: 100%;
