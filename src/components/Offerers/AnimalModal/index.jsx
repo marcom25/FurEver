@@ -5,6 +5,12 @@ import axios from "axios";
 
 
 export const AnimalModal = ({id,nombre,descripcion,photos,especie,peso,raza,genero,vacunas,edad})=> {
+  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  let userType
+  
+  if (localStorage.getItem("user")) {
+    userType = retrievedData.tipo
+  }
     if(vacunas === true){
         vacunas = "SI"
     }else{
@@ -16,6 +22,14 @@ export const AnimalModal = ({id,nombre,descripcion,photos,especie,peso,raza,gene
     }else{
         genero="Hembra"
     }
+
+    let deleteButton;
+    if(userType == "Offerer"){
+      deleteButton =  <Button className="w-50" variant="outline-danger" onClick={() => decideDelete(id)}> Eliminar animal </Button>
+
+    }
+
+
     const decideDelete = async (animal) => {
         try {
           const response = await axios.delete("http://localhost:8000/furever/api/animal-adp/"+ animal+"/");
@@ -56,7 +70,7 @@ export const AnimalModal = ({id,nombre,descripcion,photos,especie,peso,raza,gene
           
         </ListGroup>
         <Row className="d-flex justify-content-center mt-3">
-        <Button className="w-50" variant="outline-danger" onClick={() => decideDelete(id)}> Eliminar animal </Button>
+        {deleteButton}
 
         </Row>
 
