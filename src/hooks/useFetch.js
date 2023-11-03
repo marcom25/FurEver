@@ -3,7 +3,7 @@ import { SET_DATA, SET_ERROR } from "../actions/fetch";
 import {API} from "../API/API";
 import { fetchReducer, initialState } from "../reducers/fetch";
 
-export const useFetch = (endpoint = "") => {
+export const useFetch = (endpoint = "", deps = []) => {
     const [state, dispatch] = useReducer(fetchReducer, initialState);
     
 
@@ -19,7 +19,7 @@ export const useFetch = (endpoint = "") => {
 
     useEffect(() => {
         getData();
-    }, [endpoint, getData]);
+    }, [endpoint, getData, ...deps]);
     
  
 

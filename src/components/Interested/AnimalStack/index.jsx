@@ -8,27 +8,31 @@ import { API } from "../../../API/API";
 export const AnimalStack = () => {
   const session = JSON.parse(localStorage.getItem("user"));
   const [selectedSpecies, setSelectedSpecies] = useState("");
+  const [triggerFectch, setTriggerFetch] = useState(false);
 
   const { data: animals } = useFetch(
-    ("animal-adp/?interested=" + session.id + "&especie=" + selectedSpecies)  );
-  
-  console.log(animals)
+    "animal-adp/?interested=" + session.id + "&especie=" + selectedSpecies,[triggerFectch]
+  );
+
+  // console.log(animals);
   let [cardIndex, setCardIndex] = useState(0);
 
   let type_d;
-  
+
   const handleSpeciesChange = (event) => {
     setSelectedSpecies(event.target.value);
   };
 
   const handleLike = async (card) => {
-    console.log("Liked: ", card);
+    // console.log("Liked: ", card);
     next(card, "like");
+    setTriggerFetch(!triggerFectch);
   };
 
   const handleDislike = async (card) => {
-    console.log("DisLiked: ", card);
+    // console.log("DisLiked: ", card);
     next(card, "dis");
+    setTriggerFetch(!triggerFectch);
   };
 
   const next = async (card, desition) => {
@@ -43,25 +47,26 @@ export const AnimalStack = () => {
         animal: card.id,
         type: type_d,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.log(error);
     }
     setCardIndex((prevCardIndex) => {
       const nextIndex = (prevCardIndex + 1) % animals.length;
-      const nextCard = animals[nextIndex];
       return nextIndex;
     });
   };
 
   return (
     <>
-    <div className="d-flex justify-content-center mb-3">
-        <Form.Select aria-label="Default select example" 
-                    value={selectedSpecies} 
-                    onChange={handleSpeciesChange} 
-                    className="fur-bg text-white" 
-                    style={{width: "auto"}}>
+      <div className="d-flex justify-content-center mb-3">
+        <Form.Select
+          aria-label="Default select example"
+          value={selectedSpecies}
+          onChange={handleSpeciesChange}
+          className="fur-bg text-white"
+          style={{ width: "auto" }}
+        >
           <option value="">¿Que estas buscando?</option>
           <option value="P">Perro</option>
           <option value="G">Gato</option>
@@ -74,7 +79,7 @@ export const AnimalStack = () => {
       </div>
       <div
         className="d-flex justify-content-center w-100 position-relative"
-        style={{ height: "65vh" }}
+        style={{ height: "70vh" }}
       >
         <div className={"desk"}>
           <AnimalCard
@@ -116,9 +121,7 @@ export const AnimalStack = () => {
             }
           </AnimalCard>
         </div>
-       
       </div>
-      
     </>
   );
 };

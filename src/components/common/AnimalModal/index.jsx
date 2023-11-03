@@ -1,10 +1,43 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { ListGroup, Modal, Button, Row } from "react-bootstrap";
 import axios from "axios";
 
+
 export const AnimalModal = ({ show, onHide, animal }) => {
+  const [species, setSpecies] = useState("");
   const retrievedData = JSON.parse(localStorage.getItem("user"));
   let userType;
+
+  useEffect(() => {
+    if (animal) {
+      switch (animal.especie) {
+        case "P":
+          setSpecies("Perro");
+          break;
+        case "G":
+          setSpecies("Gato");
+          break;
+        case "C":
+          setSpecies("Conejo");
+          break;
+        case "T":
+          setSpecies("Tortuga");
+          break;
+        case "S": 
+          setSpecies("Serpiente");
+          break;
+        case "DG":
+          setSpecies("De granja");
+          break;
+        case "O":
+          setSpecies("Otros");
+          break;
+        default:
+          setSpecies("No definido");
+          break;
+      }
+    }
+  }, [animal])
 
   if (!animal) {
     return (
@@ -16,33 +49,8 @@ export const AnimalModal = ({ show, onHide, animal }) => {
       </Modal>
     );
   }
-  console.log(animal.especie);
-  switch (animal.especie) {
-    case "P":
-      animal.especie = "Perro";
-      break;
-    case "G":
-      animal.especie = "Gato";
-      break;
-    case "C":
-      animal.especie = "Conejo";
-      break;
-    case "T":
-      animal.especie = "Tortuga";
-      break;
-    case "S": 
-      animal.especie = "Serpiente";
-      break;
-    case "DG":
-      animal.especie = "De granja";
-      break;
-    case "O":
-      animal.especie = "Otros";
-      break;
-    default:
-      animal.especie = "";
-      break;
-  }
+  
+  
 
   if (localStorage.getItem("user")) {
     userType = retrievedData.tipo;
@@ -92,7 +100,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
       <Modal.Body className="d-flex flex-column justify-content-center">
         <ListGroup className="d-flex justify-content-center">
           <ListGroup.Item>
-            <b>Especie:</b> {animal.especie}
+            <b>Especie:</b> {species}
           </ListGroup.Item>
           <ListGroup.Item>
             <b>Raza:</b> {animal.raza}
