@@ -225,7 +225,7 @@ export const CreateAnimal = () => {
                             ))}
 
                           <Button
-                            className="mt-2"
+                            className="m-2 bg-white border border-2 text-black"
                             type="button"
                             onClick={() => push({ url: "" })}
                           >
@@ -237,8 +237,7 @@ export const CreateAnimal = () => {
 
                     <Row className="d-flex justify-content-center">
                       <Button
-                        variant="primary"
-                        className="mb-3 w-25"
+                        className="mb-3 w-25 fur-bg border border-0"
                         onClick={submitForm}
                       >
                         Crear

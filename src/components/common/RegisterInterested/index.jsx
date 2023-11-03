@@ -45,8 +45,8 @@ export const RegisterInterested = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <Card>
-            <Card.Header className="text-center light-bg">
-              <h1>Registro de usuario</h1>
+            <Card.Header className="text-center text-white light-bg">
+              <h1 className="m-0">Registro de usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
@@ -208,12 +208,12 @@ export const RegisterInterested = () => {
                               <div key={index}>
                                 <Form.Control
                                   type="url"
-                                  placeholder="Poné el link de compartir foto acá"
+                                  placeholder="Inserte el link de compartir foto aquí"
                                   name={`photos.${index}.url`}
                                   onChange={handleChange}
                                 />
                                 <Button
-                                  className="mt-2"
+                                  className="mt-2 bg-danger border border-0 text-black"
                                   type="button"
                                   onClick={() => remove(index)}
                                 >
@@ -223,7 +223,7 @@ export const RegisterInterested = () => {
                             ))}
 
                           <Button
-                            className="mt-2"
+                            className="mt-2 bg-white border border-2 text-black"
                             type="button"
                             onClick={() => push({ url: "" })}
                           >
@@ -240,13 +240,13 @@ export const RegisterInterested = () => {
                       <Form.Label>Descripción</Form.Label>
                       <Form.Control
                         as="textarea"
-                        placeholder="Una breve descripcion de como sos"
+                        placeholder="Una breve descripción suya"
                         name="descripcion"
                         onChange={handleChange}
                       />
                     </Form.Group>
 
-                    <Button variant="primary" onClick={submitForm}>
+                    <Button className="mb-3 w-25 fur-bg border border-0" onClick={submitForm}>
                       Registrarse
                     </Button>
                   </Form>

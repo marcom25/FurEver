@@ -36,8 +36,8 @@ export const Login = () => {
       <Row className="justify-content-center">
         <Col xs={8} md={6} lg={4}>
           <Card>
-            <Card.Header className="text-center light-bg">
-              <h1>Iniciar Sesión</h1>
+            <Card.Header className="text-center text-white light-bg">
+              <h1 className="m-0">Iniciar Sesión</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
@@ -89,7 +89,7 @@ export const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button variant="primary" onClick={submitForm}>
+                    <Button className="fur-bg border border-0" onClick={submitForm}>
                       Iniciar Sesión
                     </Button>
                   </Form>

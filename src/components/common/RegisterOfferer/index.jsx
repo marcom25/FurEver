@@ -39,8 +39,8 @@ export const ResgisterOfferer = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <Card>
-            <Card.Header className="text-center light-bg">
-              <h1>Registro de usuario</h1>
+            <Card.Header className="text-center text-white light-bg">
+              <h1 className="m-0">Registro de usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
@@ -109,7 +109,7 @@ export const ResgisterOfferer = () => {
                     <Row>
                       <Form.Group className="mb-3" controlId="formGridProvince">
                         <Form.Label>
-                          ¿En que provincia estás ubicado/a?
+                          ¿En que provincia está ubicado/a?
                         </Form.Label>
                         <Form.Control
                           as="textarea"
@@ -137,19 +137,19 @@ export const ResgisterOfferer = () => {
                       {({ insert, remove, push }) => (
                         <Form.Group className="mb-3" controlId="formGridPhotos">
                           <Form.Label>
-                            Documentacion (solo en caso de venta)
+                            Documentación (solo en caso de venta)
                           </Form.Label>
                           {values.docs?.length > 0 &&
                             values.docs.map((docs, index) => (
                               <div key={index}>
                                 <Form.Control
                                   type="url"
-                                  placeholder="Poné el link de compartir archivo acá"
+                                  placeholder="Inserte el link de compartir archivo aquí"
                                   name={`docs.${index}.url`}
                                   onChange={handleChange}
                                 />
                                 <Button
-                                  className="mt-2"
+                                  className="mt-2 bg-danger border border-0 text-black"
                                   type="button"
                                   onClick={() => remove(index)}
                                 >
@@ -159,7 +159,7 @@ export const ResgisterOfferer = () => {
                             ))}
 
                           <Button
-                            className="mt-2"
+                            className="mt-2 bg-white border border-2 text-black"
                             type="button"
                             onClick={() => push({ url: "" })}
                           >
@@ -169,7 +169,7 @@ export const ResgisterOfferer = () => {
                       )}
                     </FieldArray>
 
-                    <Button variant="primary" onClick={submitForm}>
+                    <Button  className="mb-3 w-25 fur-bg border border-0" onClick={submitForm}>
                       Registrarse
                     </Button>
                   </Form>
