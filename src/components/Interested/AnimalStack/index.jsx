@@ -7,33 +7,32 @@ import { API } from "../../../API/API";
 
 export const AnimalStack = () => {
   const session = JSON.parse(localStorage.getItem("user"));
-  const { data: animals } = useFetch("animal-adp/?interested="+session.id);
+  const { data: animals } = useFetch("animal-adp/?interested=" + session.id);
 
   let [cardIndex, setCardIndex] = useState(0);
   let type_d;
-  
 
   const handleLike = async (card) => {
     console.log("Liked: ", card);
-    next(card,"like");
-  }
+    next(card, "like");
+  };
 
   const handleDislike = async (card) => {
     console.log("DisLiked: ", card);
-    next(card,"dis");
-  }
+    next(card, "dis");
+  };
 
   const next = async (card, desition) => {
-    if(desition === "like"){
-      type_d = "P"
-    }else{
-      type_d="N"
+    if (desition === "like") {
+      type_d = "P";
+    } else {
+      type_d = "N";
     }
     try {
       const response = await API.post("card-d/", {
         interested: session.id,
         animal: card.id,
-        type: type_d
+        type: type_d,
       });
       console.log(response);
     } catch (error) {

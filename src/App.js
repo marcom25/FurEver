@@ -11,7 +11,7 @@ function App() {
         <Row className="light-bg">
           <Furbar />
         </Row>
-        <Row className="justify-content-center align-items-center flex-grow-1 h-100">
+        <Row className="justify-content-center align-items-center flex-grow-1">
           <MyRoutes />
         </Row>
         <Row className="fur-bg justify-content-center">

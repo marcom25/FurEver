@@ -31,7 +31,7 @@ export const InterestedModal = ({nombre,descripcion,photos,ap,aa,ninos,horarios,
         <Modal.Body className="d-flex flex-column justify-content-center">
         <ListGroup horizontal className="d-flex justify-content-center">
         <ListGroup.Item variant="danger">Animales previos: {ap}</ListGroup.Item>
-        <ListGroup.Item variant="success">Animnales actuales: {aa}</ListGroup.Item>
+        <ListGroup.Item variant="success">Animales actuales: {aa}</ListGroup.Item>
         <ListGroup.Item variant="danger">Niños: {ninos}</ListGroup.Item>
         </ListGroup>
         <ListGroup>
