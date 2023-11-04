@@ -52,7 +52,7 @@ export const EditOfferer = () => {
         <Col xs={12} md={8} lg={6}>
           <Card>
             <Card.Header className="text-center light-bg">
-              <h1 className="m-0 fur-text">Registro de usuario</h1>
+              <h1 className="m-0 fur-text">Editar usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
