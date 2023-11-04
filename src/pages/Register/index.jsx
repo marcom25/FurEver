@@ -14,14 +14,14 @@ export const Register = () => {
           <h3>¿Que buscas hacer en FurEver?</h3>
         </Col>
       </Row>
-      <Row>
+      <Row className="w-50">
         <Col className="d-flex justify-content-center">
-          <Link to="interested" className="btn btn-primary">
+          <Link to="interested" className="btn submit-btn register-choice text-white vh-15">
             Quiero adoptar o comprar
           </Link>
         </Col>
         <Col className="d-flex justify-content-center">
-          <Link to="offerer" className="btn btn-primary">
+          <Link to="offerer" className="btn submit-btn register-choice text-white">
             Quiero dar en adopción o vender animales
           </Link>
         </Col>

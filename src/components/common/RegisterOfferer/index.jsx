@@ -39,8 +39,8 @@ export const ResgisterOfferer = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <Card>
-            <Card.Header className="text-center text-white light-bg">
-              <h1 className="m-0">Registro de usuario</h1>
+            <Card.Header className="text-center light-bg">
+              <h1 className="m-0 fur-text">Registro de usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
@@ -149,7 +149,7 @@ export const ResgisterOfferer = () => {
                                   onChange={handleChange}
                                 />
                                 <Button
-                                  className="mt-2 bg-danger border border-0 text-black"
+                                  className="mt-2 close-btn border border-0"
                                   type="button"
                                   onClick={() => remove(index)}
                                 >
@@ -159,7 +159,7 @@ export const ResgisterOfferer = () => {
                             ))}
 
                           <Button
-                            className="mt-2 bg-white border border-2 text-black"
+                            className="mt-2 add-btn border border-2 "
                             type="button"
                             onClick={() => push({ url: "" })}
                           >
@@ -169,7 +169,7 @@ export const ResgisterOfferer = () => {
                       )}
                     </FieldArray>
 
-                    <Button  className="mb-3 w-25 fur-bg border border-0" onClick={submitForm}>
+                    <Button  className="mb-3 w-25 submit-btn border border-0" onClick={submitForm}>
                       Registrarse
                     </Button>
                   </Form>

@@ -29,3 +29,51 @@ html {
         color: darken($fur-scd-color, 20%);
     }
 }
+
+.fur-text{
+    color: $fur-scd-color ;
+}
+
+.submit-btn{
+    background-color: $fur-color;
+    &:hover {
+        background-color: darken($fur-color, 20%);
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.furbar-btn{
+    background-color: $fur-color;
+    &:hover {
+        background-color: darken($fur-color, 20%);
+    }
+}
+
+.close-btn{
+    background-color: darken($color: red, $amount: 15%);
+    &:hover {
+        background-color:darken($color: red, $amount: 5%);
+    }
+    color:white
+}
+
+.add-btn{
+    background-color:  white;
+    &:hover {
+        background-color: lighten($fur-color, 30%);
+        color: black;
+    }
+    color:black
+}
+
+.register-choice{
+    height: 15vh;
+    width: 15vw;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
