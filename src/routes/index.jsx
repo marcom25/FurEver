@@ -9,6 +9,8 @@ import { RegisterInterested } from "../components/common/RegisterInterested";
 import { InterestedConectionsPage } from "../pages/InterestedConections";
 import { MaintenencePage } from "../pages/MaintenencePage";
 import { CreateAnimal } from "../pages/CreateAnimal";
+import { EditInterested } from "../components/Interested/EditInterested";
+import { EditOfferer } from "../components/Offerers/EditOfferer";
 
 export const MyRoutes = () => {
   return (
@@ -23,6 +25,9 @@ export const MyRoutes = () => {
       <Route path="interested" element={<InterestedPage />} />
       <Route path="interested/connections" element={<InterestedConectionsPage />} />
       <Route path="interested/sales" element={<MaintenencePage />} />
+      <Route path="interested/edit" element={<EditInterested />} />
+      <Route path="offerer/edit" element={<EditOfferer />} />
+
     </Routes>
   );
 };

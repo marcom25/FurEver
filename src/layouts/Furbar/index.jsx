@@ -65,12 +65,23 @@ export const Furbar = () => {
             {localStorage.getItem("user") ? (
               <div className="d-flex gap-2">
                 <Button className="close-btn border border-0 " onClick={()=> handleLogOut()}>Cerrar Sesión</Button>
+                {userType === "Interested" ? (
+                  <Link to="/interested/edit" className="btn submit-btn border border-0 text-white  ">
+                  Editar usuario
+                </Link> 
+                ):(
+                  <Link to="/offerer/edit" className="btn submit-btn border border-0 text-white  ">
+                  Editar usuario
+                </Link>
+                )}
+                
               </div>
             ) : (
               <div className="d-flex gap-2">
                 <Link to="/login" className="btn submit-btn border border-0 text-white  ">
                   Iniciar Sesión
                 </Link>
+                
                 <Link to="/register" className="btn submit-btn border border-0 text-white ">
                   Registrarse
                 </Link>
