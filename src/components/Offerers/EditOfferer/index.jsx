@@ -20,16 +20,16 @@ export const EditOfferer = () => {
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
-    password: yup.string().required("Ingresá una contraseña"),
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
+    
   });
 
   const initialValue = {
     username: offerer.name || "",
-    password: "example",
-    phone: offerer.phone || 0,
-    provincia: offerer.provincia || "",
-    empresa_fundacion: offerer.empresa_fundacion || "",
+    password: "",
+    phone:offerer.phone || 0,
+    provincia: offerer.provincia || '',
+    empresa_fundacion: offerer.empresa_fundacion || '',
     docs: offerer.docs,
   };
 
@@ -99,11 +99,10 @@ export const EditOfferer = () => {
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Label>Nueva Contraseña</Form.Label>
                         <Form.Control
-                          required
                           type="password"
-                          placeholder="Contraseña"
+                          placeholder="Nueva Contraseña"
                           name="password"
                           value={values.password}
                           onChange={handleChange}
