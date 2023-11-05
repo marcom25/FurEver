@@ -16,11 +16,15 @@ import {
 import * as yup from "yup";
 import "yup-phone-lite";
 import axios from "axios";
+import { Response } from "../../components/common/Response";
 
 // import { useFetch } from "../../../hooks/useFetch";
 
 export const EditAnimal = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
   const [showDone, setShowDone] = useState("d-none");
   const animalPk = searchParams.get("pk")  
   const schema = yup.object().shape({
@@ -49,14 +53,16 @@ export const EditAnimal = () => {
   const submitHandler = async (formData) => {
     try {
         formData.pk = animalPk
-        console.log(typeof formData)
         const response = await axios.patch(
           "http://localhost:8000/furever/api/animal-adp/" + animalPk + "/"
         ,formData);
         console.log(response)
-        setShowDone("d-block")
+        setFailed(false);
+        setSuccessful(true);
       } catch (error) {
         console.log(error);
+        setSuccessful(false);
+        setFailed(true);
       }
   };
 
@@ -68,6 +74,12 @@ export const EditAnimal = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="my-4 fur-text">Editar tarjeta de animal</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ocurrio un error, revise la información proporcionada"
+              success={successful}
+              successText="Animal editado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 enableReinitialize
@@ -250,7 +262,7 @@ export const EditAnimal = () => {
                     <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
                       Actualizar
                     </Button>
-                    <FaCheckCircle className={showDone} color="#5c9ead" size="1.5em" />
+                    
                     </div>
                   </Form>
                 )}
