@@ -1,7 +1,7 @@
 
 import { Card } from 'react-bootstrap';
-import GoodResponse from './GoodResponse';
-import BadResponse from './BadResponse';
+import {GoodResponse} from '../GoodResponse';
+import {BadResponse} from '../BadResponse';
 
 export const Response = ({ success, fail, successText, failText }) => {
   return (
