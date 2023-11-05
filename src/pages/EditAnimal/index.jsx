@@ -239,7 +239,7 @@ export const EditAnimal = () => {
                                 />
                                 <Button
                                   type="button"
-                                  className="mt-2"
+                                  className="mt-2 close-btn border border-0"
                                   onClick={() => remove(index)}
                                 >
                                   Eliminar Foto

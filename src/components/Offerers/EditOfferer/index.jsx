@@ -11,6 +11,33 @@ export const EditOfferer = () => {
   const [successful, setSuccessful] = useState(false);
   const [failed, setFailed] = useState(false);
 
+  const provinces = [
+    "Elegir provincia",
+    "Buenos Aires",
+    "Catamarca",
+    "Chaco",
+    "Chubut",
+    "Córdoba",
+    "Corrientes",
+    "Entre Ríos",
+    "Formosa",
+    "Jujuy",
+    "La Pampa",
+    "La Rioja",
+    "Mendoza",
+    "Misiones",
+    "Neuquén",
+    "Río Negro",
+    "Salta",
+    "San Juan",
+    "San Luis",
+    "Santa Cruz",
+    "Santa Fe",
+    "Santiago del Estero",
+    "Tierra del Fuego",
+    "Tucumán"
+  ];
+
   const retrievedData = JSON.parse(localStorage.getItem("user"));
   let offererId;
   if (localStorage.getItem("user")) {
@@ -131,16 +158,27 @@ export const EditOfferer = () => {
                     </Row>
 
                     <Row>
-                      <Form.Group className="mb-3" controlId="formGridProvince">
+                    <Form.Group className="mb-3" controlId="formGridProvince">
                         <Form.Label>
                           ¿En que provincia está ubicado/a?
                         </Form.Label>
                         <Form.Control
-                          as="textarea"
+                          as="select"
+                          type="select"
+                          required
+                          value={values.provincia}
+                          defaultValue="Elegir provincia"
                           name="provincia"
                           onChange={handleChange}
-                          value={values.provincia}
-                        />
+                          isInvalid={errors.provincia}
+                        >
+                          {provinces.map((province, index) => (
+                            <option htmlSize={provinces.length / 2} key={index} value={province}>
+                              {province}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.provincia}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
                         className="mb-3"
