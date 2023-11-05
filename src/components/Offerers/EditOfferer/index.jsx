@@ -13,7 +13,7 @@ export const EditOfferer = () => {
     if (localStorage.getItem("user")) {
       offererId = retrievedData.id;
     }
-  const { loading, error, data:offerer } = useFetch("oferentes/" + offererId + "/");
+  const { data:offerer } = useFetch("oferentes/" + offererId + "/");
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
@@ -21,7 +21,7 @@ export const EditOfferer = () => {
     
   });
 
-  const [showDone, setShowDone] = useState("d-none");
+  const [showDone, setShowDone] = useState(false);
 
   const initialValue = {
     username: offerer.name || '',
@@ -39,8 +39,9 @@ export const EditOfferer = () => {
         const response = await axios.patch(
           "http://localhost:8000/furever/api/oferentes/" + offererId + "/"
         ,formData);
+
         console.log(response)
-        setShowDone("d-block")
+        response.status === 201 ? setShowDone(!showDone) : setShowDone(false)
       } catch (error) {
         console.log(error);
       }
@@ -189,7 +190,7 @@ export const EditOfferer = () => {
                     <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
                       Actualizar
                     </Button>
-                    <FaCheckCircle className={showDone} color="#5c9ead" size="1.5em" />
+                    
                     </div>
                   </Form>
                 )}

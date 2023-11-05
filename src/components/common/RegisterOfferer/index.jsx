@@ -113,6 +113,7 @@ export const ResgisterOfferer = () => {
                           ¿En que provincia está ubicado/a?
                         </Form.Label>
                         <Form.Control
+                          
                           as="textarea"
                           name="provincia"
                           onChange={handleChange}
