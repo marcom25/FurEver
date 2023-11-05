@@ -2,36 +2,48 @@ import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { API } from "../../../API/API";
+import { useState } from "react";
+import axios from "axios";
+import { useFetch } from "../../../hooks/useFetch"
+import { FaCheckCircle } from "react-icons/fa";
 
-export const ResgisterOfferer = () => {
+export const EditOfferer = () => {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
+    let offererId
+    if (localStorage.getItem("user")) {
+      offererId = retrievedData.id;
+    }
+  const { loading, error, data:offerer } = useFetch("oferentes/" + offererId + "/");
+
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
   });
 
+  const [showDone, setShowDone] = useState("d-none");
+
   const initialValue = {
-    username: "",
-    password: "",
-    phone: "",
-    provincia: "",
-    empresa_fundacion: "",
-    docs: [
-      {
-        url: "",
-      },
-    ],
+    username: offerer.name || '',
+    password: "example",
+    phone:offerer.phone || 0,
+    provincia: offerer.provincia || '',
+    empresa_fundacion: offerer.empresa_fundacion || '',
+    docs: offerer.docs,
   };
 
   const submitHandler = async (formData) => {
     try {
-      const response = await API.post("register/offerer", formData);
-      console.log(response);
-      window.location.assign("/login");
-    } catch (error) {
-      console.log(error);
-    }
+        formData.pk = offererId
+        console.log(typeof formData)
+        const response = await axios.patch(
+          "http://localhost:8000/furever/api/oferentes/" + offererId + "/"
+        ,formData);
+        console.log(response)
+        setShowDone("d-block")
+      } catch (error) {
+        console.log(error);
+      }
   };
 
   return (
@@ -40,10 +52,11 @@ export const ResgisterOfferer = () => {
         <Col xs={12} md={8} lg={6}>
           <Card>
             <Card.Header className="text-center light-bg">
-              <h1 className="m-0 fur-text">Registro de usuario</h1>
+              <h1 className="m-0 fur-text">Editar usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
+                enableReinitialize
                 validationSchema={schema}
                 onSubmit={submitHandler}
                 initialValues={initialValue}
@@ -67,6 +80,7 @@ export const ResgisterOfferer = () => {
                           value={values.username}
                           onChange={handleChange}
                           isInvalid={errors.username}
+                          disabled
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.username}
@@ -115,6 +129,7 @@ export const ResgisterOfferer = () => {
                           as="textarea"
                           name="provincia"
                           onChange={handleChange}
+                          value={values.provincia}
                         />
                       </Form.Group>
                       <Form.Group
@@ -129,6 +144,7 @@ export const ResgisterOfferer = () => {
                           as="textarea"
                           name="empresa_fundacion"
                           onChange={handleChange}
+                          value={values.empresa_fundacion}
                         />
                       </Form.Group>
                     </Row>
@@ -145,7 +161,8 @@ export const ResgisterOfferer = () => {
                                 <Form.Control
                                   type="url"
                                   placeholder="Inserte el link de compartir archivo aquí"
-                                  name={`docs.${index}.url`}
+                                  name={`docs.${index}`}
+                                  value={docs}
                                   onChange={handleChange}
                                 />
                                 <Button
@@ -161,7 +178,7 @@ export const ResgisterOfferer = () => {
                           <Button
                             className="mt-2 add-btn border border-2 "
                             type="button"
-                            onClick={() => push({ url: "" })}
+                            onClick={() => push("")}
                           >
                             Añadir Documentación
                           </Button>
@@ -169,9 +186,12 @@ export const ResgisterOfferer = () => {
                       )}
                     </FieldArray>
 
-                    <Button  className="mb-3 w-25 submit-btn border border-0" onClick={submitForm}>
-                      Registrarse
+                    <div className="d-flex flex-row align-items-center">
+                    <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
+                      Actualizar
                     </Button>
+                    <FaCheckCircle className={showDone} color="#5c9ead" size="1.5em" />
+                    </div>
                   </Form>
                 )}
               </Formik>

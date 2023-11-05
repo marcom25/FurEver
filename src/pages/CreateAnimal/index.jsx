@@ -59,7 +59,7 @@ export const CreateAnimal = () => {
         <Col xs={12} md={8} lg={6}>
           <Card>
             <Card.Header className="text-center light-bg">
-              <h1 className="my-4">Creacion de tarjeta de animal</h1>
+              <h1 className="my-4 fur-text">Creacion de tarjeta de animal</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
@@ -167,7 +167,7 @@ export const CreateAnimal = () => {
                         <Form.Label>Descripción</Form.Label>
                         <Form.Control
                           as="textarea"
-                          placeholder="Una breve descripcion del animal"
+                          placeholder="Una breve descripción del animal"
                           name="descripcion"
                           onChange={handleChange}
                         />
@@ -225,7 +225,7 @@ export const CreateAnimal = () => {
                             ))}
 
                           <Button
-                            className="m-2 bg-white border border-2 text-black"
+                            className="m-2 add-btn border border-2 "
                             type="button"
                             onClick={() => push({ url: "" })}
                           >
@@ -237,7 +237,7 @@ export const CreateAnimal = () => {
 
                     <Row className="d-flex justify-content-center">
                       <Button
-                        className="mb-3 w-25 fur-bg border border-0"
+                        className="mb-3 w-25 submit-btn border border-0"
                         onClick={submitForm}
                       >
                         Crear

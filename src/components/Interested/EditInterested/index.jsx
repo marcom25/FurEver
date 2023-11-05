@@ -2,9 +2,20 @@ import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { API } from "../../../API/API";
+import { useFetch } from "../../../hooks/useFetch"
+import { FaCheckCircle } from "react-icons/fa";
+import { useState } from "react";
 
-export const RegisterInterested = () => {
+
+import axios from "axios";
+export const EditInterested = () => {
+    const retrievedData = JSON.parse(localStorage.getItem("user"));
+    let interestedId
+    if (localStorage.getItem("user")) {
+      interestedId = retrievedData.id;
+    }
+  const { loading, error, data:interested } = useFetch("interesados/" + interestedId + "/");
+
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -13,31 +24,33 @@ export const RegisterInterested = () => {
     horarios: yup.string().required("Elegí una opción"),
   });
 
+  const [showDone, setShowDone] = useState("d-none");
+
   const initialValue = {
-    username: "",
-    password: "",
-    phone: "",
-    ninos: false,
-    animales_previos: false,
-    animales_actuales: false,
-    tipo_hogar: "",
-    horarios: "",
-    photos: [
-      {
-        url: "",
-      },
-    ],
-    descripcion: "",
+    username: interested.name || '',
+    password: "example",
+    phone:interested.phone || 0,
+    ninos: interested.ninos || false,
+    animales_previos: interested.animales_previos|| false,
+    animales_actuales: interested.animales_actuales || false,
+    tipo_hogar: interested.tipo_hogar || '',
+    horarios: interested.horarios || '',
+    photos: interested.photos || [],
+    descripcion: interested.descripcion || '',
   };
 
   const submitHandler = async (formData) => {
     try {
-      const response = await API.post("register/interested", formData);
-      console.log(response);
-      window.location.assign("/login");
-    } catch (error) {
-      console.log(error);
-    }
+        formData.pk = interestedId
+        console.log(typeof formData)
+        const response = await axios.patch(
+          "http://localhost:8000/furever/api/interesados/" + interestedId + "/"
+        ,formData);
+        console.log(response)
+        setShowDone("d-block")
+      } catch (error) {
+        console.log(error);
+      }
   };
 
   return (
@@ -46,10 +59,11 @@ export const RegisterInterested = () => {
         <Col xs={12} md={8} lg={6}>
           <Card>
             <Card.Header className="text-center light-bg">
-              <h1 className="m-0 fur-text">Registro de usuario</h1>
+              <h1 className="m-0 fur-text">Editar usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
+                enableReinitialize
                 validationSchema={schema}
                 onSubmit={submitHandler}
                 initialValues={initialValue}
@@ -73,6 +87,7 @@ export const RegisterInterested = () => {
                           value={values.username}
                           onChange={handleChange}
                           isInvalid={errors.username}
+                          disabled
                         />
                         <Form.Control.Feedback type="invalid">
                           {errors.username}
@@ -148,7 +163,7 @@ export const RegisterInterested = () => {
                           type="select"
                           as="select"
                           required
-                          defaultValue="Eliga un espacio"
+                          value={values.tipo_hogar}
                           name="tipo_hogar"
                           onChange={handleChange}
                           isInvalid={errors.username}
@@ -179,7 +194,7 @@ export const RegisterInterested = () => {
                           type="select"
                           as="select"
                           required
-                          defaultValue="Eliga un rango horario"
+                          value={values.horarios}
                           name="horarios"
                           onChange={handleChange}
                           isInvalid={errors.username}
@@ -209,7 +224,8 @@ export const RegisterInterested = () => {
                                 <Form.Control
                                   type="url"
                                   placeholder="Inserte el link de compartir foto aquí"
-                                  name={`photos.${index}.url`}
+                                  name={`photos.${index}`}
+                                  value={photo}
                                   onChange={handleChange}
                                 />
                                 <Button
@@ -225,7 +241,7 @@ export const RegisterInterested = () => {
                           <Button
                             className="mt-2 add-btn border border-2 "
                             type="button"
-                            onClick={() => push({ url: "" })}
+                            onClick={() => push("")}
                           >
                             Añadir Foto
                           </Button>
@@ -243,12 +259,18 @@ export const RegisterInterested = () => {
                         placeholder="Una breve descripción suya"
                         name="descripcion"
                         onChange={handleChange}
+                        value={values.descripcion}
                       />
                     </Form.Group>
-
-                    <Button className="mb-3 w-25 submit-btn border border-0" onClick={submitForm}>
-                      Registrarse
+                    
+                    <div className="d-flex flex-row align-items-center">
+                    <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
+                      Actualizar
                     </Button>
+                    <FaCheckCircle className={showDone} color="#5c9ead" size="1.5em" />
+                    </div>
+                    
+                    
                   </Form>
                 )}
               </Formik>
