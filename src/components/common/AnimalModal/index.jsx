@@ -55,17 +55,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
   if (localStorage.getItem("user")) {
     userType = retrievedData.tipo;
   }
-  if (animal.vacunas === true) {
-    animal.vacunas = "SI";
-  } else {
-    animal.vacunas = "NO";
-  }
 
-  if (animal.genero === "M") {
-    animal.genero = "Macho";
-  } else {
-    animal.genero = "Hembra";
-  }
 
   let deleteButton;
   if (userType === "Offerer") {
@@ -106,7 +96,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
             <b>Raza:</b> {animal.raza}
           </ListGroup.Item>
           <ListGroup.Item>
-            <b>Género:</b> {animal.genero}
+            <b>Género:</b> {animal.genero === "M" ? "Macho" : "Hembra"}
           </ListGroup.Item>
           <ListGroup.Item>
             <b>Edad:</b> {animal.edad}
@@ -115,7 +105,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
             <b>Peso:</b> {animal.peso}
           </ListGroup.Item>
           <ListGroup.Item>
-            <b>Vacunas:</b> {animal.vacunas}
+            <b>Vacunas:</b> {animal.vacunas ? "Si" : "No"}
           </ListGroup.Item>
         </ListGroup>
         <ListGroup>
