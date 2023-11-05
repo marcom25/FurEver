@@ -3,6 +3,7 @@ import {
   Accordion,
   Container,
   Row,
+  Col,
   Button,
   Modal,
   ListGroup,
@@ -110,67 +111,71 @@ export const OferrerInteresteesPage = () => {
   const handleHideModalI = () => setShowModalI(false);
 
   return (
-    <Container className="h-100">
+    <Container>
       <h1 className="text-center my-4">Mis Ofertas</h1>
-      <Row className="d-flex justify-content-md-center">
+      <Row className="d-flex justify-content-md-center mb-3">
         {data?.length > 0 &&
           data.map((animal, index) => (
-            <Accordion
-              key={index}
-              className="d-flex align-items-center flex-column"
-            >
-              <Accordion.Item eventKey={index} className="w-75">
-                <Container className="d-flex flex-row p-0">
-                  <Button
-                    variant="outline-info"
-                    className="w-10"
-                    onClick={() => handleShowModalA(animal)}
-                  >
-                    <FaCircleInfo color="blue" size="2em" />
-                  </Button>
-                  <Accordion.Header className="w-100">
-                    <p className="m-0 fw-bold">{animal.nombre}</p>
-                    <p className="m-0 text-primary">
-                      - Interesado/s: {animal.interested.length}
-                    </p>
-                  </Accordion.Header>
-                </Container>
-                <Accordion.Body>
-                  <ListGroup variant="flush">
-                    {animal.interested?.length > 0 &&
-                      animal.interested.map((interested, indexI) => (
-                        <ListGroup.Item
-                          key={indexI}
-                          className="d-flex justify-content-between"
-                        >
-                          <Container className="d-flex flex-row align-items-center p-0">
-                            <Button
-                              variant="link"
-                              className="w-10"
-                              onClick={() => handleShowModalI(interested)}
-                            >
-                              <FaCircleInfo color="blue" size="1.5em" />
-                            </Button>
-                            {interested?.name}
-                          </Container>
+            <Col xs={12} md={8} lg={6}>
+              <Accordion
+                key={index}
+                className="d-flex align-items-center flex-column"
+              >
+                <Accordion.Item eventKey={index} className="w-100">
+                  <Container className="d-flex flex-row p-0 m-0">
+                    <Button
+                      className="w-10 furbar-btn border-0"
+                      onClick={() => handleShowModalA(animal)}
+                    >
+                      <FaCircleInfo color="white" size="2em" />
+                    </Button>
+                    <Accordion.Header className="w-100">
+                      <p className="m-0">
+                        <span className="fw-bold">{animal.nombre} </span>{" "}
+                        <span className="text-primary">
+                          - Interesado/s: {animal.interested.length}
+                        </span>
+                      </p>
+                    </Accordion.Header>
+                  </Container>
+                  <Accordion.Body>
+                    <ListGroup variant="flush">
+                      {animal.interested?.length > 0 &&
+                        animal.interested.map((interested, indexI) => (
+                          <ListGroup.Item
+                            key={indexI}
+                            className="d-flex justify-content-between"
+                          >
+                            <Container className="d-flex flex-row align-items-center p-0">
+                              <Button
+                                variant="link"
+                                className="w-10"
+                                onClick={() => handleShowModalI(interested)}
+                              >
+                                <FaCircleInfo
+                                  color="rgb(92,158,173)"
+                                  size="1.5em"
+                                />
+                              </Button>
+                              {interested?.name}
+                            </Container>
 
-                          {selectButtons(interested, animal)}
-                        </ListGroup.Item>
-                      ))}
-                  </ListGroup>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+                            {selectButtons(interested, animal)}
+                          </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </Col>
           ))}
       </Row>
 
-      
       <AnimalModal
         show={showModalA}
         onHide={handleHideModalA}
         animal={selectedAnimal}
       />
-        
 
       <Modal show={showModalI} onHide={handleHideModalI}>
         <InterestedModal

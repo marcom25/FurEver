@@ -101,10 +101,10 @@ export const InterestedConectionsPage = () => {
                   <Container className="d-flex flex-row align-items-center p-0">
                     <Button
                       variant="outline-info"
-                      className="me-2"
+                      className="me-2 furbar-btn border-0"
                       onClick={() => handleShowModalA(animal)}
                     >
-                      <FaCircleInfo color="blue" size="1.5em" />
+                      <FaCircleInfo color="white" size="1.5em" />
                     </Button>
                     {animal?.nombre}
                   </Container>
