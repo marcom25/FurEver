@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { Formik } from "formik";
 import { Row, Col, Form, Button, Card, Container } from "react-bootstrap";
 import * as yup from "yup";
 import { API } from "../../API/API";
+import { Response } from "../../components/common/Response";
 
 export const Login = () => {
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -17,17 +22,21 @@ export const Login = () => {
   const submitHandler = async (formData) => {
     try {
       const response = await API.post("login/", formData);
-      localStorage.setItem("user", JSON.stringify(response.data.user_data));
-      console.log(JSON.stringify(response.data.user_data).tipo);
-      console.log(JSON.stringify(response.data.user_data));
+      setFailed(false);
+      setSuccessful(true);
 
-      if (JSON.parse(localStorage.getItem("user")).tipo === "Offerer") {
-        window.location.assign("/offerer/interestees");
-      } else {
-        window.location.assign("/interested/");
+      if (successful) {
+        localStorage.setItem("user", JSON.stringify(response.data.user_data));
+        if (JSON.parse(localStorage.getItem("user")).tipo === "Offerer") {
+          window.location.assign("/offerer/interestees");
+        } else {
+          window.location.assign("/interested/");
+        }
       }
     } catch (error) {
       console.log(error);
+      setSuccessful(false);
+      setFailed(true);
     }
   };
 
@@ -39,6 +48,12 @@ export const Login = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="m-0 fur-text">Iniciar Sesión</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Nombre o Contraseña incorrectos"
+              success={successful}
+              successText="Sesión iniciada correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 validationSchema={schema}
@@ -89,7 +104,10 @@ export const Login = () => {
                       </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Button className="submit-btn border border-0" onClick={submitForm}>
+                    <Button
+                      className="submit-btn border border-0"
+                      onClick={submitForm}
+                    >
                       Iniciar Sesión
                     </Button>
                   </Form>

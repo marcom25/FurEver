@@ -108,7 +108,7 @@ export const AnimalStack = () => {
           {showMore && selectedCard ? (
             <Card>
               <Card.Header className="text-center text-white light-bg">
-                <Card.Title className="fs-3 d-flex justify-content-between align-items-center">
+                <Card.Title className="fs-3 d-flex justify-content-between align-items-center fur-text" >
                   Información de {selectedCard.nombre}
                   <AiOutlineClose onClick={handleShowMore} cursor="pointer" />
                 </Card.Title>
@@ -148,7 +148,7 @@ export const AnimalStack = () => {
                   Necesidades Especiales: {selectedCard.necesidades_esp}
                 </ListGroup.Item>
               </ListGroup>
-              <Card.Footer className="light-bg">
+              <Card.Footer className="light-bg fur-text">
                 Fecha cracion: {selectedCard.fecha_creacion}
               </Card.Footer>
             </Card>

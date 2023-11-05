@@ -14,7 +14,7 @@ export const EditInterested = () => {
     if (localStorage.getItem("user")) {
       interestedId = retrievedData.id;
     }
-  const { loading, error, data:interested } = useFetch("interesados/" + interestedId + "/");
+  const { data:interested } = useFetch("interesados/" + interestedId + "/");
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
@@ -58,8 +58,8 @@ export const EditInterested = () => {
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
           <Card>
-            <Card.Header className="text-center light-bg">
-              <h1 className="m-0 fur-text">Editar usuario</h1>
+            <Card.Header className="text-center light-bg fur-text">
+              <h1 className="m-0 ">Editar usuario</h1>
             </Card.Header>
             <Card.Body className="mb-0">
               <Formik
