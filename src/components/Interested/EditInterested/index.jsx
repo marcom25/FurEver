@@ -18,7 +18,6 @@ export const EditInterested = () => {
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
-    password: yup.string().required("Ingresá una contraseña"),
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
     tipo_hogar: yup.string().required("Elegí una opción"),
     horarios: yup.string().required("Elegí una opción"),
@@ -28,7 +27,7 @@ export const EditInterested = () => {
 
   const initialValue = {
     username: interested.name || '',
-    password: "example",
+    password: "",
     phone:interested.phone || 0,
     ninos: interested.ninos || false,
     animales_previos: interested.animales_previos|| false,
@@ -97,7 +96,6 @@ export const EditInterested = () => {
                       <Form.Group as={Col} controlId="formGridPassword">
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control
-                          required
                           type="password"
                           placeholder="Contraseña"
                           name="password"

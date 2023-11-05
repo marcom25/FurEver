@@ -9,6 +9,7 @@ export const ResgisterOfferer = () => {
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
+    
   });
 
   const initialValue = {
