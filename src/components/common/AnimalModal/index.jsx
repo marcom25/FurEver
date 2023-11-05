@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ListGroup, Modal, Button, Row } from "react-bootstrap";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export const AnimalModal = ({ show, onHide, animal }) => {
   const [species, setSpecies] = useState("");
@@ -56,14 +57,17 @@ export const AnimalModal = ({ show, onHide, animal }) => {
   let deleteButton;
   if (userType === "Offerer") {
     deleteButton = (
+      <div className="d-flex justify-content-around">
       <Button
-        className="w-50"
-        variant="outline-danger"
+        variant="danger"
         onClick={() => decideDelete(animal.id)}
       >
-        {" "}
-        Eliminar animal{" "}
+        Eliminar animal
       </Button>
+      <Link to={"/offerer/animal/edit?pk=" + animal.id} className="btn submit-btn border border-0 text-white  ">
+          Editar animal
+      </Link>
+      </div>
     );
   }
 

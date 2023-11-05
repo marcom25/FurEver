@@ -11,6 +11,7 @@ import { MaintenencePage } from "../pages/MaintenencePage";
 import { CreateAnimal } from "../pages/CreateAnimal";
 import { EditInterested } from "../components/Interested/EditInterested";
 import { EditOfferer } from "../components/Offerers/EditOfferer";
+import { EditAnimal } from "../pages/EditAnimal";
 
 export const MyRoutes = () => {
   return (
@@ -27,6 +28,7 @@ export const MyRoutes = () => {
       <Route path="interested/sales" element={<MaintenencePage />} />
       <Route path="interested/edit" element={<EditInterested />} />
       <Route path="offerer/edit" element={<EditOfferer />} />
+      <Route path="offerer/animal/edit" element={<EditAnimal />} />
 
     </Routes>
   );
