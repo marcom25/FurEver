@@ -3,6 +3,8 @@ import { BsHeartFill } from "react-icons/bs";
 import { FiX } from "react-icons/fi";
 import Voodoo from "react-voodoo";
 import * as cardStyles from "../../../utils/utils.js";
+import { LuDog } from 'react-icons/lu';
+
 
 export const AnimalCard = ({
   children,
@@ -148,8 +150,9 @@ export const AnimalCard = ({
           axes={styles.likeOverlay.axes}
           style={styles.likeOverlay.style}
         >
-          <div className={"likeOverlay"}>
-            <h1>Aceptado</h1>
+          <div className={"fur-icon-yes"}>
+            {/* <h1 className="fur-font">Conectados!</h1> */}
+            <LuDog color="white" size="70px"/>
           </div>
         </Voodoo.Node>
         <Voodoo.Node
@@ -157,8 +160,9 @@ export const AnimalCard = ({
           axes={styles.dislikeOverlay.axes}
           style={styles.dislikeOverlay.style}
         >
-          <div className={"dislikeOverlay"}>
-            <h1>Rechazado</h1>
+          <div className={"fur-icon-no"}>
+            {/* <h1>Rechazado</h1> */}
+            <LuDog color="white" size="70px"/>
           </div>
         </Voodoo.Node>
       </div>

@@ -10,6 +10,12 @@ body,
 html {
     font-family: 'Signika Negative', sans-serif;}
 
+.fur-font{
+    font-family: 'Signika Negative', sans-serif;
+    font-variant: small-caps;
+    font-size: small;
+}
+
 
 .light-bg {
     background-color: lighten($fur-color, 30%)
