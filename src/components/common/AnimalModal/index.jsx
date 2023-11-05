@@ -1,7 +1,6 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { ListGroup, Modal, Button, Row } from "react-bootstrap";
 import axios from "axios";
-
 
 export const AnimalModal = ({ show, onHide, animal }) => {
   const [species, setSpecies] = useState("");
@@ -23,7 +22,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
         case "T":
           setSpecies("Tortuga");
           break;
-        case "S": 
+        case "S":
           setSpecies("Serpiente");
           break;
         case "DG":
@@ -37,7 +36,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
           break;
       }
     }
-  }, [animal])
+  }, [animal]);
 
   if (!animal) {
     return (
@@ -49,13 +48,10 @@ export const AnimalModal = ({ show, onHide, animal }) => {
       </Modal>
     );
   }
-  
-  
 
   if (localStorage.getItem("user")) {
     userType = retrievedData.tipo;
   }
-
 
   let deleteButton;
   if (userType === "Offerer") {
@@ -107,8 +103,7 @@ export const AnimalModal = ({ show, onHide, animal }) => {
           <ListGroup.Item>
             <b>Vacunas:</b> {animal.vacunas ? "Si" : "No"}
           </ListGroup.Item>
-        </ListGroup>
-        <ListGroup>
+
           <ListGroup.Item>
             <h4>Descripción</h4>
             {animal.descripcion}

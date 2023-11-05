@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
 import { API } from "../../../API/API";
+import { Response } from "../Response";
 
 export const RegisterInterested = () => {
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
@@ -34,9 +39,13 @@ export const RegisterInterested = () => {
     try {
       const response = await API.post("register/interested", formData);
       console.log(response);
+      setFailed(false);
+      setSuccessful(true);
       window.location.assign("/login");
     } catch (error) {
       console.log(error);
+      setSuccessful(false);
+      setFailed(true);
     }
   };
 
@@ -48,6 +57,12 @@ export const RegisterInterested = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="m-0 fur-text">Registro de usuario</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ya hay un usuario registrado con ese nombre de usuario, por favor elija otro."
+              success={successful}
+              successText="Usuario registrado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 validationSchema={schema}

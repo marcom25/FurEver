@@ -5,8 +5,8 @@ import { BsFillXCircleFill } from 'react-icons/bs';
 
 export const BadResponse = ({ text }) => {
   return (
-    <Alert variant="danger" className="d-flex align-items-center">
-      <BsFillXCircleFill className="me-2" />
+    <Alert variant="danger" className="mb-0 d-flex align-items-center">
+      <BsFillXCircleFill size={20} className="me-2" />
       <span>{text}</span>
     </Alert>
   );

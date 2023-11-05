@@ -1,14 +1,49 @@
+import { useState } from "react";
 import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
 import { API } from "../../../API/API";
+import { Response } from "../Response";
+
 
 export const ResgisterOfferer = () => {
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const provinces = [
+    "Elegir provincia",
+    "Buenos Aires",
+    "Catamarca",
+    "Chaco",
+    "Chubut",
+    "Córdoba",
+    "Corrientes",
+    "Entre Ríos",
+    "Formosa",
+    "Jujuy",
+    "La Pampa",
+    "La Rioja",
+    "Mendoza",
+    "Misiones",
+    "Neuquén",
+    "Río Negro",
+    "Salta",
+    "San Juan",
+    "San Luis",
+    "Santa Cruz",
+    "Santa Fe",
+    "Santiago del Estero",
+    "Tierra del Fuego",
+    "Tucumán"
+  ];
+
+
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
     password: yup.string().required("Ingresá una contraseña"),
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
+    provincia: yup.string().required("Ingresá una provincia"),
   });
 
   const initialValue = {
@@ -27,10 +62,13 @@ export const ResgisterOfferer = () => {
   const submitHandler = async (formData) => {
     try {
       const response = await API.post("register/offerer", formData);
-      console.log(response);
+      setFailed(false);
+      setSuccessful(true);
       window.location.assign("/login");
     } catch (error) {
       console.log(error);
+      setSuccessful(false);
+      setFailed(true);
     }
   };
 
@@ -42,6 +80,12 @@ export const ResgisterOfferer = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="m-0 fur-text">Registro de usuario</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ya hay un usuario registrado con ese nombre de usuario, por favor elija otro."
+              success={successful}
+              successText="Usuario registrado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 validationSchema={schema}
@@ -112,22 +156,33 @@ export const ResgisterOfferer = () => {
                           ¿En que provincia está ubicado/a?
                         </Form.Label>
                         <Form.Control
-                          
-                          as="textarea"
+                          as="select"
+                          type="select"
+                          required
+                          defaultValue="Elegir provincia"
                           name="provincia"
                           onChange={handleChange}
-                        />
+                          isInvalid={errors.provincia}
+                        >
+                          {provinces.map((province, index) => (
+                            <option htmlSize={provinces.length / 2} key={index} value={province}>
+                              {province}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.provincia}</Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group
                         className="mb-3"
                         controlId="formGridFundation"
                       >
                         <Form.Label>
-                          Nombre de empresa o fundación. (En caso de pertenecer
-                          a una)
+                          Nombre de empresa o fundación. (En caso de pertenecera
+                          una)
                         </Form.Label>
                         <Form.Control
-                          as="textarea"
+                          type="text"
+                          placeholder="Nombre de empresa o fundación"
                           name="empresa_fundacion"
                           onChange={handleChange}
                         />
@@ -170,7 +225,10 @@ export const ResgisterOfferer = () => {
                       )}
                     </FieldArray>
 
-                    <Button  className="mb-3 w-25 submit-btn border border-0" onClick={submitForm}>
+                    <Button
+                      className="mb-3 w-25 submit-btn border border-0"
+                      onClick={submitForm}
+                    >
                       Registrarse
                     </Button>
                   </Form>

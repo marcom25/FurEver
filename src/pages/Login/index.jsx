@@ -25,13 +25,11 @@ export const Login = () => {
       setFailed(false);
       setSuccessful(true);
 
-      if (successful) {
-        localStorage.setItem("user", JSON.stringify(response.data.user_data));
-        if (JSON.parse(localStorage.getItem("user")).tipo === "Offerer") {
-          window.location.assign("/offerer/interestees");
-        } else {
-          window.location.assign("/interested/");
-        }
+      localStorage.setItem("user", JSON.stringify(response.data.user_data));
+      if (JSON.parse(localStorage.getItem("user")).tipo === "Offerer") {
+        window.location.assign("/offerer/interestees");
+      } else {
+        window.location.assign("/interested/");
       }
     } catch (error) {
       console.log(error);

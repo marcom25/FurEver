@@ -4,6 +4,7 @@ import { FiX } from "react-icons/fi";
 import Voodoo from "react-voodoo";
 import * as cardStyles from "../../../utils/utils.js";
 import { LuDog } from 'react-icons/lu';
+import {SiDatadog} from 'react-icons/si';
 
 
 export const AnimalCard = ({

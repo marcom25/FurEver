@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FieldArray, Formik } from "formik";
 import {
   Row,
@@ -12,10 +12,14 @@ import {
 import * as yup from "yup";
 import "yup-phone-lite";
 import { API } from "../../API/API";
+import { Response } from "../../components/common/Response";
 
 // import { useFetch } from "../../../hooks/useFetch";
 
 export const CreateAnimal = () => {
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
   let userId;
 
   if (localStorage.getItem("user")) {
@@ -47,9 +51,13 @@ export const CreateAnimal = () => {
     try {
       const response = await API.post("animal-adp/", formData);
       console.log(response);
+      setFailed(false);
+      setSuccessful(true);
       window.location.assign("/offerer/interestees/");
     } catch (error) {
       console.log(error);
+      setSuccessful(false);
+      setFailed(true);
     }
   };
 
@@ -61,6 +69,12 @@ export const CreateAnimal = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="my-4 fur-text">Creacion de tarjeta de animal</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ocurrio un error, revise la información proporcionada"
+              success={successful}
+              successText="Animal creado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 validationSchema={schema}

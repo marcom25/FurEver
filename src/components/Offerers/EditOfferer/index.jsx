@@ -1,19 +1,22 @@
+import { useState } from "react";
 import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { useState } from "react";
 import axios from "axios";
-import { useFetch } from "../../../hooks/useFetch"
-import { FaCheckCircle } from "react-icons/fa";
+import { useFetch } from "../../../hooks/useFetch";
+import { Response } from "../../common/Response";
 
 export const EditOfferer = () => {
-    const retrievedData = JSON.parse(localStorage.getItem("user"));
-    let offererId
-    if (localStorage.getItem("user")) {
-      offererId = retrievedData.id;
-    }
-  const { data:offerer } = useFetch("oferentes/" + offererId + "/");
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  let offererId;
+  if (localStorage.getItem("user")) {
+    offererId = retrievedData.id;
+  }
+  const { data: offerer } = useFetch("oferentes/" + offererId + "/");
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
@@ -21,30 +24,31 @@ export const EditOfferer = () => {
     phone: yup.string().phone("AR").required("Ingresá un teléfono"),
   });
 
-  const [showDone, setShowDone] = useState(false);
-
   const initialValue = {
-    username: offerer.name || '',
+    username: offerer.name || "",
     password: "example",
-    phone:offerer.phone || 0,
-    provincia: offerer.provincia || '',
-    empresa_fundacion: offerer.empresa_fundacion || '',
+    phone: offerer.phone || 0,
+    provincia: offerer.provincia || "",
+    empresa_fundacion: offerer.empresa_fundacion || "",
     docs: offerer.docs,
   };
 
   const submitHandler = async (formData) => {
     try {
-        formData.pk = offererId
-        console.log(typeof formData)
-        const response = await axios.patch(
-          "http://localhost:8000/furever/api/oferentes/" + offererId + "/"
-        ,formData);
-
-        console.log(response)
-        response.status === 201 ? setShowDone(!showDone) : setShowDone(false)
-      } catch (error) {
-        console.log(error);
-      }
+      formData.pk = offererId;
+      console.log(typeof formData);
+      const response = await axios.patch(
+        "http://localhost:8000/furever/api/oferentes/" + offererId + "/",
+        formData
+      );
+      console.log(response);
+      setFailed(false);
+      setSuccessful(true);
+    } catch (error) {
+      console.log(error);
+      setSuccessful(false);
+      setFailed(true);
+    }
   };
 
   return (
@@ -55,6 +59,12 @@ export const EditOfferer = () => {
             <Card.Header className="text-center light-bg">
               <h1 className="m-0 fur-text">Editar usuario</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ocurrio un error, revise la información proporcionada"
+              success={successful}
+              successText="Usuario actualizado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 enableReinitialize
@@ -188,10 +198,12 @@ export const EditOfferer = () => {
                     </FieldArray>
 
                     <div className="d-flex flex-row align-items-center">
-                    <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
-                      Actualizar
-                    </Button>
-                    
+                      <Button
+                        className=" w-25 me-2 submit-btn border border-0"
+                        onClick={submitForm}
+                      >
+                        Actualizar
+                      </Button>
                     </div>
                   </Form>
                 )}

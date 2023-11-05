@@ -1,20 +1,22 @@
+import { useState } from "react";
 import { FieldArray, Formik } from "formik";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import * as yup from "yup";
 import "yup-phone-lite";
-import { useFetch } from "../../../hooks/useFetch"
-import { FaCheckCircle } from "react-icons/fa";
-import { useState } from "react";
-
-
+import { useFetch } from "../../../hooks/useFetch";
 import axios from "axios";
+import { Response } from "../../common/Response";
+
 export const EditInterested = () => {
-    const retrievedData = JSON.parse(localStorage.getItem("user"));
-    let interestedId
-    if (localStorage.getItem("user")) {
-      interestedId = retrievedData.id;
-    }
-  const { data:interested } = useFetch("interesados/" + interestedId + "/");
+  const [successful, setSuccessful] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  const retrievedData = JSON.parse(localStorage.getItem("user"));
+  let interestedId;
+  if (localStorage.getItem("user")) {
+    interestedId = retrievedData.id;
+  }
+  const { data: interested } = useFetch("interesados/" + interestedId + "/");
 
   const schema = yup.object().shape({
     username: yup.string().required("Ingresá un nombre de usuario"),
@@ -24,33 +26,35 @@ export const EditInterested = () => {
     horarios: yup.string().required("Elegí una opción"),
   });
 
-  const [showDone, setShowDone] = useState("d-none");
-
   const initialValue = {
-    username: interested.name || '',
+    username: interested.name || "",
     password: "example",
-    phone:interested.phone || 0,
+    phone: interested.phone || 0,
     ninos: interested.ninos || false,
-    animales_previos: interested.animales_previos|| false,
+    animales_previos: interested.animales_previos || false,
     animales_actuales: interested.animales_actuales || false,
-    tipo_hogar: interested.tipo_hogar || '',
-    horarios: interested.horarios || '',
+    tipo_hogar: interested.tipo_hogar || "",
+    horarios: interested.horarios || "",
     photos: interested.photos || [],
-    descripcion: interested.descripcion || '',
+    descripcion: interested.descripcion || "",
   };
 
   const submitHandler = async (formData) => {
     try {
-        formData.pk = interestedId
-        console.log(typeof formData)
-        const response = await axios.patch(
-          "http://localhost:8000/furever/api/interesados/" + interestedId + "/"
-        ,formData);
-        console.log(response)
-        setShowDone("d-block")
-      } catch (error) {
-        console.log(error);
-      }
+      formData.pk = interestedId;
+      console.log(typeof formData);
+      const response = await axios.patch(
+        "http://localhost:8000/furever/api/interesados/" + interestedId + "/",
+        formData
+      );
+      console.log(response);
+      setFailed(false);
+      setSuccessful(true);
+    } catch (error) {
+      console.log(error);
+      setSuccessful(false);
+      setFailed(true);
+    }
   };
 
   return (
@@ -61,6 +65,12 @@ export const EditInterested = () => {
             <Card.Header className="text-center light-bg fur-text">
               <h1 className="m-0 ">Editar usuario</h1>
             </Card.Header>
+            <Response
+              fail={failed}
+              failText="Ocurrio un error, revise la información proporcionada"
+              success={successful}
+              successText="Usuario actualizado correctamente"
+            />
             <Card.Body className="mb-0">
               <Formik
                 enableReinitialize
@@ -134,7 +144,6 @@ export const EditInterested = () => {
                           name="ninos"
                           checked={values.ninos}
                           onChange={handleChange}
-                          
                         />
                       </Form.Group>
                       <Form.Group controlId="formGridPrevAnim">
@@ -143,7 +152,6 @@ export const EditInterested = () => {
                           name="animales_previos"
                           checked={values.animales_previos}
                           onChange={handleChange}
-                          
                         />
                       </Form.Group>
                       <Form.Group controlId="formGridNowAnim">
@@ -152,7 +160,6 @@ export const EditInterested = () => {
                           name="animales_actuales"
                           checked={values.animales_actuales}
                           onChange={handleChange}
-                          
                         />
                       </Form.Group>
                       <Form.Group as={Col} controlId="formGridAnimSpace">
@@ -262,15 +269,15 @@ export const EditInterested = () => {
                         value={values.descripcion}
                       />
                     </Form.Group>
-                    
+
                     <div className="d-flex flex-row align-items-center">
-                    <Button className=" w-25 me-2 submit-btn border border-0" onClick={submitForm}>
-                      Actualizar
-                    </Button>
-                    <FaCheckCircle className={showDone} color="#5c9ead" size="1.5em" />
+                      <Button
+                        className=" w-25 me-2 submit-btn border border-0"
+                        onClick={submitForm}
+                      >
+                        Actualizar
+                      </Button>
                     </div>
-                    
-                    
                   </Form>
                 )}
               </Formik>
