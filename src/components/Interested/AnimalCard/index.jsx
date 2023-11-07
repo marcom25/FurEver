@@ -3,9 +3,8 @@ import { BsHeartFill } from "react-icons/bs";
 import { FiX } from "react-icons/fi";
 import Voodoo from "react-voodoo";
 import * as cardStyles from "../../../utils/utils.js";
-import { LuDog } from 'react-icons/lu';
-import {SiDatadog} from 'react-icons/si';
-
+import { LuDog } from "react-icons/lu";
+import { SiDatadog } from "react-icons/si";
 
 export const AnimalCard = ({
   children,
@@ -13,12 +12,14 @@ export const AnimalCard = ({
   onLiked,
   nextCard,
   card,
+  loading,
 }) => {
   const [tweener, ViewBox] = Voodoo.hook({ enableMouseDrag: true });
   const [curCard, setCurCard] = useState(card);
   const [curNextCard, setCurNextCard] = useState(nextCard);
   const renderCard = children;
   const rootNode = useRef();
+  const isMounted = useRef(true);
   const events = useRef({});
   const styles = useMemo(() => {
     return {
@@ -73,6 +74,12 @@ export const AnimalCard = ({
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   useEffect(
     (e) => {
       events.current = { onDisliked, onLiked, curCard, hasSwiped: false };
@@ -84,7 +91,9 @@ export const AnimalCard = ({
     (e) => {
       if (card !== curCard)
         tweener.scrollTo(0, 250, "show").then((e) => {
-          setCurCard(card);
+          if (isMounted.current) {
+            setCurCard(card);
+          }
         });
     },
     [card, curCard, tweener]
@@ -95,8 +104,10 @@ export const AnimalCard = ({
       tweener.scrollTo(50, 0, "vSwipe");
       tweener.scrollTo(100, 0, "showNext");
       tweener.scrollTo(100, 250, "show").then((e) => {
-        tweener.scrollTo(0, 0, "showNext");
-        setCurNextCard(nextCard);
+        if (isMounted.current) {
+          tweener.scrollTo(0, 0, "showNext");
+          setCurNextCard(nextCard);
+        }
       });
     },
     [curCard, tweener]
@@ -122,28 +133,38 @@ export const AnimalCard = ({
 
       <Voodoo.Axis axe={"showNext"} size={100} defaultPosition={100} />
 
-      <div className={"layer"}>
-        <Voodoo.Node axes={styles.nextCard.axes} style={styles.nextCard.style}>
-          <div className="nextCard w-100 h-100" draggable="false" key={"nextCard"}>
-            {renderCard?.(curNextCard)}
+      {!loading && (
+        <>
+          <div className={"layer"}>
+            <Voodoo.Node
+              axes={styles.nextCard.axes}
+              style={styles.nextCard.style}
+            >
+              <div
+                className="nextCard w-100 h-100"
+                draggable="false"
+                key={"nextCard"}
+              >
+                {curNextCard && curNextCard.descripcion && renderCard?.(curNextCard)}
+              </div>
+            </Voodoo.Node>
           </div>
-        </Voodoo.Node>
-      </div>
-
-      <div className={"layer"}>
-        <Voodoo.Draggable
-          yHook={styles.inverse}
-          xHook={styles.inverse}
-          yAxis={"vSwipe"}
-          xAxis={"hSwipe"}
-        >
-          <Voodoo.Node axes={styles.card.axes} style={styles.card.style}>
-            <div className="card w-100 h-100" draggable="false">
-              {renderCard?.(curCard)}
-            </div>
-          </Voodoo.Node>
-        </Voodoo.Draggable>
-      </div>
+          <div className={"layer"}>
+            <Voodoo.Draggable
+              yHook={styles.inverse}
+              xHook={styles.inverse}
+              yAxis={"vSwipe"}
+              xAxis={"hSwipe"}
+            >
+              <Voodoo.Node axes={styles.card.axes} style={styles.card.style}>
+                <div className="card w-100 h-100" draggable="false">
+                  {curCard && curCard.descripcion && renderCard?.(curCard)}
+                </div>
+              </Voodoo.Node>
+            </Voodoo.Draggable>
+          </div>
+        </>
+      )}
 
       <div className={"layer noEvent"}>
         <Voodoo.Node
@@ -153,7 +174,7 @@ export const AnimalCard = ({
         >
           <div className={"fur-icon-yes"}>
             {/* <h1 className="fur-font">Conectados!</h1> */}
-            <LuDog color="white" size="70px"/>
+            <LuDog color="white" size="70px" />
           </div>
         </Voodoo.Node>
         <Voodoo.Node
@@ -163,7 +184,7 @@ export const AnimalCard = ({
         >
           <div className={"fur-icon-no"}>
             {/* <h1>Rechazado</h1> */}
-            <LuDog color="white" size="70px"/>
+            <LuDog color="white" size="70px" />
           </div>
         </Voodoo.Node>
       </div>
@@ -173,16 +194,14 @@ export const AnimalCard = ({
           tweener.axes.hSwipe.scrollTo(100, 500, "easeCubicInOut")
         }
       >
-        <BsHeartFill className="icons"/>
+        <BsHeartFill className="icons" />
       </div>
       <div
         className="dislikeBtn text-danger"
         onClick={(e) => tweener.axes.hSwipe.scrollTo(0, 500, "easeCubicInOut")}
       >
-        <FiX className="icons"/>
+        <FiX className="icons" />
       </div>
     </ViewBox>
   );
 };
-
-

@@ -1,8 +1,9 @@
-import { SET_DATA, SET_ERROR, SET_LOADING } from "../actions/fetch";
+import { SET_DATA, SET_ERROR, SET_LOADING, TRIGGER_FETCH } from "../actions/fetch";
 
 export const initialState = {
   loading: true,
   error: false,
+  triggerFetch: false,
   data: [],
 };
 
@@ -12,6 +13,7 @@ export const fetchReducer = (state = initialState, action) => {
       return {
         ...initialState,
         loading: false,
+        triggerFetch: true,
         data: action.payload,
       };
     case SET_ERROR:
@@ -25,6 +27,7 @@ export const fetchReducer = (state = initialState, action) => {
         ...initialState,
         loading: true,
       };
+    
     default:
       return state;
   }

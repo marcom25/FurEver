@@ -9,6 +9,7 @@ import {
   Col,
   Carousel,
   ListGroup,
+  
 } from "react-bootstrap";
 import { AiOutlineClose } from "react-icons/ai";
 import { API } from "../../../API/API";
@@ -18,15 +19,41 @@ export const AnimalStack = () => {
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [showMore, setShowMore] = useState(false);
-  const [triggerFectch, setTriggerFetch] = useState(false);
+  const [triggerFectch, setTriggerFetch] = useState(0);
   const [species, setSpecies] = useState("");
+  const [cardIndex, setCardIndex] = useState(0);
+  
 
-  const { data: animals } = useFetch(
+
+  const { loading, data } = useFetch(
     "animal-adp/?interested=" + session.id + "&especie=" + selectedSpecies,
     [triggerFectch]
   );
 
-  let [cardIndex, setCardIndex] = useState(0);
+  const lastCard = {
+    id: data.length + 1,
+    nombre: " ",
+    especie: "",
+    raza: "",
+    vacunas_completas: false,
+    edad: 0,
+    necesidades_esp: "",
+    photos: [
+      {
+        link: "https://drive.google.com/file/d/12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo/view?usp=sharing",
+        id: "12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo",
+      },
+    ],
+    genero: "",
+    peso: "",
+    descripcion: "Nos quedamos sin animales para mostrarte",
+    fecha_creacion: "",
+    oferente: 0,
+    interested: [],
+  };
+
+  const animals = [...data, lastCard];
+
 
   let type_d;
 
@@ -36,17 +63,20 @@ export const AnimalStack = () => {
 
   const handleShowMore = (card) => {
     setSelectedCard(card);
+    console.log(card);
     setShowMore(!showMore);
   };
 
   const handleLike = async (card) => {
     next(card, "like");
-    setTriggerFetch(!triggerFectch);
+    // setTriggerFetch(triggerFectch + 1);
+    // window.location.reload();
   };
 
   const handleDislike = async (card) => {
     next(card, "dis");
-    setTriggerFetch(!triggerFectch);
+    // setTriggerFetch(triggerFectch + 1);
+    // window.location.reload();
   };
 
   const next = async (card, desition) => {
@@ -56,15 +86,19 @@ export const AnimalStack = () => {
       type_d = "N";
     }
     try {
-      await API.post("card-d/", {
+      const response = await API.post("card-d/", {
         interested: session.id,
         animal: card.id,
         type: type_d,
       });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
     setCardIndex((prevCardIndex) => {
+      if (!animals) {
+        return prevCardIndex;
+      }
       const nextIndex = (prevCardIndex + 1) % animals.length;
       return nextIndex;
     });
@@ -101,6 +135,15 @@ export const AnimalStack = () => {
     }
   }, [selectedCard]);
 
+  const isLastCard = (card) => {
+    if (card === animals[animals.length - 1]) {
+      setTimeout(() => window.location.reload() , 5000);
+    }
+    return card === animals[animals.length - 1];
+    
+  }
+  
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -108,7 +151,7 @@ export const AnimalStack = () => {
           {showMore && selectedCard ? (
             <Card>
               <Card.Header className="text-center text-white light-bg">
-                <Card.Title className="fs-3 d-flex justify-content-between align-items-center fur-text" >
+                <Card.Title className="fs-3 d-flex justify-content-between align-items-center fur-text">
                   Información de {selectedCard.nombre}
                   <AiOutlineClose onClick={handleShowMore} cursor="pointer" />
                 </Card.Title>
@@ -130,7 +173,7 @@ export const AnimalStack = () => {
                   ))}
                 </Carousel>
                 <Card.Text className="fs-6 mt-3">
-                  Descripcion: {selectedCard.descripcion}
+                  Descripcion: {selectedCard ? selectedCard.descripcion : ""}
                 </Card.Text>
               </Card.Body>
               <ListGroup className="list-group-flush">
@@ -153,75 +196,101 @@ export const AnimalStack = () => {
               </Card.Footer>
             </Card>
           ) : (
-            <>
-              <div className="d-flex justify-content-center mb-3">
-                <Form.Select
-                  aria-label="Default select example"
-                  value={selectedSpecies}
-                  onChange={handleSpeciesChange}
-                  className="fur-bg text-white w-auto"
-                >
-                  <option value="">¿Que estas buscando?</option>
-                  <option value="P">Perro</option>
-                  <option value="G">Gato</option>
-                  <option value="C">Conejo</option>
-                  <option value="T">Tortuga</option>
-                  <option value="S">Serpiente</option>
-                  <option value="DG">De granja</option>
-                  <option value="O">Otros</option>
-                </Form.Select>
-              </div>
-              <div
-                className="d-flex justify-content-center w-100 position-relative"
-                style={{ height: "70vh" }}
-              >
-                <div className={"desk"}>
-                  <AnimalCard
-                    card={animals[cardIndex]}
-                    nextCard={animals[(cardIndex + 1) % animals.length]}
-                    onDisliked={handleDislike}
-                    onLiked={handleLike}
+            animals &&
+            animals.length > 0 ? (
+              <>
+                <div className="d-flex justify-content-center mb-3">
+                  <Form.Select
+                    aria-label="Default select example"
+                    value={selectedSpecies}
+                    onChange={handleSpeciesChange}
+                    className="fur-bg text-white w-auto"
                   >
-                    {(card) =>
-                      animals.length > 0 && card ? (
-                        <Card draggable="false" className="position-relative">
-                          <Card.Img
-                            src={
-                              card.photos[0]
-                                ? "https://drive.google.com/uc?id=" +
-                                  card.photos[0].id
-                                : ""
-                            }
-                            alt={card.nombre}
-                            key={card.id}
-                          />
-
-                          <Card.ImgOverlay className="d-flex align-items-center flex-column animal-card text-white">
-                            <Card.Body className="d-flex justify-content-start flex-column">
-                              <Card.Title className="fs-3">
-                                {card.nombre}, <span>{card.edad} años</span>
-                              </Card.Title>
-
-                              <Card.Text
-                                className="m-0 fs-6"
-                                onClick={() => handleShowMore(card)}
-                              >
-                                {card.descripcion.substring(0, 100)}{" "}
-                                {card.descripcion.length >= 20 && "..."}
-                              </Card.Text>
-                            </Card.Body>
-                          </Card.ImgOverlay>
-                        </Card>
-                      ) : (
-                        <div>
-                          <p>Parece que no hay animales disponibles..</p>
-                        </div>
-                      )
-                    }
-                  </AnimalCard>
+                    <option value="">¿Que estas buscando?</option>
+                    <option value="P">Perro</option>
+                    <option value="G">Gato</option>
+                    <option value="C">Conejo</option>
+                    <option value="T">Tortuga</option>
+                    <option value="S">Serpiente</option>
+                    <option value="DG">De granja</option>
+                    <option value="O">Otros</option>
+                  </Form.Select>
                 </div>
-              </div>
-            </>
+                <div
+                  className="d-flex justify-content-center w-100 position-relative"
+                  style={{ height: "70vh" }}
+                >
+                  <div className={"desk"}>
+                    {!loading && (
+                      <AnimalCard
+                        card={animals ? animals[cardIndex] : null}
+                        nextCard={
+                          animals && animals.length > 0
+                            ? animals[(cardIndex + 1) % animals.length]
+                            : null
+                        }
+                        onDisliked={handleDislike}
+                        onLiked={handleLike}
+                        loading={loading}
+                      >
+                        {(card, index) =>
+                          
+                          animals &&
+                          animals.length && (
+                            <Card
+                              draggable="false"
+                              className="position-relative"
+                            >
+                              <Card.Img
+                                src={
+                                  card && card.photos[0]
+                                    ? "https://drive.google.com/uc?id=" +
+                                      card.photos[0].id
+                                    : ""
+                                }
+                                alt={card && card.nombre ? card.nombre : ""}
+                                key={index}
+                              />
+
+                              <Card.ImgOverlay className="d-flex align-items-center flex-column animal-card text-white">
+                                <Card.Body className="d-flex justify-content-start flex-column">
+                                  {card &&
+                                    !isLastCard(card) && (
+                                      <Card.Title className="fs-3">
+                                        {card ? card.nombre : ""},{" "}
+                                        <span>{card ? card.edad : 0} años</span>
+                                      </Card.Title>
+                                    )}
+
+                                  <Card.Text
+                                    className="m-0 fs-6"
+                                    onClick={() =>
+                                      handleShowMore(card ? card : null)
+                                    }
+                                  >
+                                    {card
+                                      ? card.descripcion.substring(0, 100)
+                                      : ""}{" "}
+                                    {card.descripcion
+                                      ? card.descripcion.length >= 20 && "..."
+                                      : ""}
+                                  </Card.Text>
+                                </Card.Body>
+                              </Card.ImgOverlay>
+                            </Card>
+                          )
+                        }
+                      </AnimalCard>
+                    )}
+                  </div>
+                </div>
+              </>
+            
+          ):(
+            <div className="d-flex justify-content-center align-items-center" style={{height: "70vh"}}>
+              <h1 className="fs-1">No hay animales para mostrar</h1>
+            </div>
+          )
           )}
         </Col>
       </Row>
