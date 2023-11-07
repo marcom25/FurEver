@@ -113,7 +113,7 @@ export const OferrerInteresteesPage = () => {
   return (
     <Container>
       <h1 className="text-center my-4">Mis Ofertas</h1>
-      <Row className="d-flex justify-content-md-center mb-3">
+      <Row className="d-flex flex-column align-items-center justify-content-md-center mb-3">
         {data?.length > 0 &&
           data.map((animal, index) => (
             <Col xs={12} md={8} lg={6}>
