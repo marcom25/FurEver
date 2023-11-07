@@ -188,6 +188,10 @@
     }
   }
 
+  .card div:before {
+    height: 0 !important;
+  }
+
   .fur-icon-yes{
     background-color: lighten(green,5%);
     display: flex;
