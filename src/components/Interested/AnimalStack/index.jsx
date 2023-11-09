@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { AnimalCard } from "../AnimalCard";
 import { useFetch } from "../../../hooks/useFetch";
 import {
@@ -9,7 +9,6 @@ import {
   Col,
   Carousel,
   ListGroup,
-  
 } from "react-bootstrap";
 import { AiOutlineClose } from "react-icons/ai";
 import { API } from "../../../API/API";
@@ -18,42 +17,42 @@ export const AnimalStack = () => {
   const session = JSON.parse(localStorage.getItem("user"));
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
-  const [showMore, setShowMore] = useState(false);
-  const [triggerFectch, setTriggerFetch] = useState(0);
+  const [showMore, setShowMore] = useState(false)
   const [species, setSpecies] = useState("");
   const [cardIndex, setCardIndex] = useState(0);
-  
-
+  const [images, setImages] = useState({});
 
   const { loading, data } = useFetch(
     "animal-adp/?interested=" + session.id + "&especie=" + selectedSpecies,
-    [triggerFectch]
   );
 
-  const lastCard = {
-    id: data.length + 1,
-    nombre: " ",
-    especie: "",
-    raza: "",
-    vacunas_completas: false,
-    edad: 0,
-    necesidades_esp: "",
-    photos: [
-      {
-        link: "https://drive.google.com/file/d/12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo/view?usp=sharing",
-        id: "12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo",
-      },
-    ],
-    genero: "",
-    peso: "",
-    descripcion: "Nos quedamos sin animales para mostrarte",
-    fecha_creacion: "",
-    oferente: 0,
-    interested: [],
-  };
 
-  const animals = [...data, lastCard];
 
+  const animals = useMemo(() => {
+    const lastCard = {
+      id: data.length + 1,
+      nombre: " ",
+      especie: "",
+      raza: "",
+      vacunas_completas: false,
+      edad: 0,
+      necesidades_esp: "",
+      photos: [
+        {
+          link: "https://drive.google.com/file/d/12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo/view?usp=sharing",
+          id: "12ieCVgs8eAGKrGwJGl36gMgG2gYaABQo",
+        },
+      ],
+      genero: "",
+      peso: "",
+      descripcion: "Nos quedamos sin animales para mostrarte",
+      fecha_creacion: "",
+      oferente: 0,
+      interested: [],
+    };
+
+    return[...data, lastCard]
+  }, [data]);
 
   let type_d;
 
@@ -105,6 +104,18 @@ export const AnimalStack = () => {
   };
 
   useEffect(() => {
+    const newImages = {};
+    animals.forEach((animal) => {
+      if (animal.photos && animal.photos[0]) {
+        const img = new Image();
+        img.src = "https://drive.google.com/uc?id=" + animal.photos[0].id;
+        newImages[animal.photos[0].id] = img;
+      }
+    });
+    setImages(newImages);
+  }, [animals]);
+
+  useEffect(() => {
     if (selectedCard) {
       switch (selectedCard.especie) {
         case "P":
@@ -137,12 +148,10 @@ export const AnimalStack = () => {
 
   const isLastCard = (card) => {
     if (card === animals[animals.length - 1]) {
-      setTimeout(() => window.location.reload() , 5000);
+      setTimeout(() => window.location.reload(), 5000);
     }
     return card === animals[animals.length - 1];
-    
-  }
-  
+  };
 
   return (
     <Container>
@@ -195,102 +204,98 @@ export const AnimalStack = () => {
                 Fecha cracion: {selectedCard.fecha_creacion}
               </Card.Footer>
             </Card>
-          ) : (
-            animals &&
-            animals.length > 0 ? (
-              <>
-                <div className="d-flex justify-content-center mb-3">
-                  <Form.Select
-                    aria-label="Default select example"
-                    value={selectedSpecies}
-                    onChange={handleSpeciesChange}
-                    className="fur-bg text-white w-auto"
-                  >
-                    <option value="">¿Que estas buscando?</option>
-                    <option value="P">Perro</option>
-                    <option value="G">Gato</option>
-                    <option value="C">Conejo</option>
-                    <option value="T">Tortuga</option>
-                    <option value="S">Serpiente</option>
-                    <option value="DG">De granja</option>
-                    <option value="O">Otros</option>
-                  </Form.Select>
-                </div>
-                <div
-                  className="d-flex justify-content-center w-100 position-relative"
-                  style={{ height: "70vh" }}
+          ) : animals && animals.length > 0 ? (
+            <>
+              <div className="d-flex justify-content-center mb-3">
+                <Form.Select
+                  aria-label="Default select example"
+                  value={selectedSpecies}
+                  onChange={handleSpeciesChange}
+                  className="fur-bg text-white w-auto"
                 >
-                  <div className={"desk"}>
-                    {!loading && (
-                      <AnimalCard
-                        card={animals ? animals[cardIndex] : null}
-                        nextCard={
-                          animals && animals.length > 0
-                            ? animals[(cardIndex + 1) % animals.length]
-                            : null
-                        }
-                        onDisliked={handleDislike}
-                        onLiked={handleLike}
-                        loading={loading}
-                      >
-                        {(card, index) =>
-                          
-                          animals &&
-                          animals.length && (
-                            <Card
-                              draggable="false"
-                              className="position-relative"
-                            >
-                              <Card.Img
-                                src={
-                                  card && card.photos[0]
-                                    ? "https://drive.google.com/uc?id=" +
+                  <option value="">¿Que estas buscando?</option>
+                  <option value="P">Perro</option>
+                  <option value="G">Gato</option>
+                  <option value="C">Conejo</option>
+                  <option value="T">Tortuga</option>
+                  <option value="S">Serpiente</option>
+                  <option value="DG">De granja</option>
+                  <option value="O">Otros</option>
+                </Form.Select>
+              </div>
+              <div
+                className="d-flex justify-content-center w-100 position-relative"
+                style={{ height: "65vh" }}
+              >
+                <div className={"desk"}>
+                  {!loading && (
+                    <AnimalCard
+                      card={animals ? animals[cardIndex] : null}
+                      nextCard={
+                        animals && animals.length > 0
+                          ? animals[(cardIndex + 1) % animals.length]
+                          : null
+                      }
+                      onDisliked={handleDislike}
+                      onLiked={handleLike}
+                      loading={loading}
+                    >
+                      {(card, index) =>
+                        animals &&
+                        animals.length && (
+                          <Card draggable="false" className="position-relative">
+                            <Card.Img
+                              src={
+                                card && card.photos[0]
+                                  ? images[card.photos[0].id]
+                                    ? images[card.photos[0].id].src
+                                    : "https://drive.google.com/uc?id=" +
                                       card.photos[0].id
-                                    : ""
-                                }
-                                alt={card && card.nombre ? card.nombre : ""}
-                                key={index}
-                              />
+                                  : ""
+                              }
+                              alt={card && card.nombre ? card.nombre : ""}
+                              key={index}
+                            />
 
-                              <Card.ImgOverlay className="d-flex align-items-center flex-column animal-card text-white">
-                                <Card.Body className="d-flex justify-content-start flex-column">
-                                  {card &&
-                                    !isLastCard(card) && (
-                                      <Card.Title className="fs-3">
-                                        {card ? card.nombre : ""},{" "}
-                                        <span>{card ? card.edad : 0} años</span>
-                                      </Card.Title>
-                                    )}
+                            <Card.ImgOverlay className="d-flex align-items-center flex-column animal-card text-white">
+                              <Card.Body className="d-flex justify-content-start flex-column">
+                                {card && !isLastCard(card) && (
+                                  <Card.Title className="fs-3 d-flex align-items-end">
+                                    {card ? card.nombre : ""},{" "}
+                                    <span>{card ? card.edad : 0} años</span>
+                                  </Card.Title>
+                                )}
 
-                                  <Card.Text
-                                    className="m-0 fs-6"
-                                    onClick={() =>
-                                      handleShowMore(card ? card : null)
-                                    }
-                                  >
-                                    {card
-                                      ? card.descripcion.substring(0, 100)
-                                      : ""}{" "}
-                                    {card.descripcion
-                                      ? card.descripcion.length >= 20 && "..."
-                                      : ""}
-                                  </Card.Text>
-                                </Card.Body>
-                              </Card.ImgOverlay>
-                            </Card>
-                          )
-                        }
-                      </AnimalCard>
-                    )}
-                  </div>
+                                <Card.Text
+                                  className="m-0 fs-6"
+                                  onClick={() =>
+                                    handleShowMore(card ? card : null)
+                                  }
+                                >
+                                  {card
+                                    ? card.descripcion.substring(0, 100)
+                                    : ""}{" "}
+                                  {card.descripcion
+                                    ? card.descripcion.length >= 20 && "..."
+                                    : ""}
+                                </Card.Text>
+                              </Card.Body>
+                            </Card.ImgOverlay>
+                          </Card>
+                        )
+                      }
+                    </AnimalCard>
+                  )}
                 </div>
-              </>
-            
-          ):(
-            <div className="d-flex justify-content-center align-items-center" style={{height: "70vh"}}>
+              </div>
+            </>
+          ) : (
+            <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ height: "70vh" }}
+            >
               <h1 className="fs-1">No hay animales para mostrar</h1>
             </div>
-          )
           )}
         </Col>
       </Row>
